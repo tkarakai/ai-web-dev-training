@@ -18,33 +18,26 @@ AI generates better code when it knows your constraints upfront.
 
 **Provide architecture context:**
 
-```typescript
-// Bad: No context
-"Create a user service"
+Bad prompt:
+> Create a user service
 
-// Good: With constraints
-`Create a user service that:
-- Uses our repository pattern (see src/repositories/base.ts)
-- Returns Result<T, Error> types (we use neverthrow)
-- Follows existing service structure in src/services/
-- Uses Prisma for database access
-- Includes JSDoc comments matching our style
-
-Here's an example service for reference:
-${exampleService}
-`
-```
+Good prompt:
+> Create a user service that:
+> - Uses our repository pattern (see src/repositories/base.ts)
+> - Returns Result<T, Error> types (we use neverthrow)
+> - Follows existing service structure in src/services/
+> - Uses Prisma for database access
+> - Includes JSDoc comments matching our style
+>
+> Here's an example service for reference:
+> [paste example service code]
 
 **Include relevant files:**
 
-```typescript
-// Let AI see your patterns
-const context = [
-  { path: 'src/types/result.ts', content: resultTypes },
-  { path: 'src/services/auth.service.ts', content: authService },
-  { path: 'src/repositories/base.ts', content: baseRepo },
-];
-```
+Let the AI see your patterns by including relevant files in context:
+- Type definitions (src/types/result.ts)
+- Example services (src/services/auth.service.ts)
+- Base patterns (src/repositories/base.ts)
 
 ### Refactoring at Scale
 
@@ -52,20 +45,16 @@ Large refactors fail when attempted all at once. Slice them.
 
 **Slicing strategy:**
 
-```typescript
-// Instead of: "Migrate all components to the new design system"
+Instead of attempting "Migrate all components to the new design system" in one go, slice by:
 
-// Slice by:
-// 1. Component type (buttons first, then forms, then layouts)
-// 2. Risk level (internal tools first, then user-facing)
-// 3. Dependency order (leaf components first, then containers)
+1. **Component type**: Buttons first, then forms, then layouts
+2. **Risk level**: Internal tools first, then user-facing features
+3. **Dependency order**: Leaf components first, then containers
 
-const refactorPlan = [
-  { slice: 'Button components', files: ['Button.tsx', 'IconButton.tsx'], risk: 'low' },
-  { slice: 'Form inputs', files: ['Input.tsx', 'Select.tsx'], risk: 'medium' },
-  { slice: 'Layout components', files: ['Header.tsx', 'Sidebar.tsx'], risk: 'high' },
-];
-```
+Example plan:
+- Slice 1: Button components (Button.tsx, IconButton.tsx) — Low risk
+- Slice 2: Form inputs (Input.tsx, Select.tsx) — Medium risk
+- Slice 3: Layout components (Header.tsx, Sidebar.tsx) — High risk
 
 **Safe checkpoints:**
 
@@ -81,28 +70,26 @@ npm test -- --related src/components/Button
 
 **AI-assisted refactoring prompt:**
 
-```typescript
-const refactorPrompt = `
-Refactor this component to use our new design system.
+Example prompt structure:
 
-Current component:
-${currentComponent}
-
-Design system patterns to use:
-${designSystemExamples}
-
-Requirements:
-- Maintain all existing props and behavior
-- Use design system tokens for colors, spacing
-- Keep the same test coverage
-- Add a brief comment noting the migration
-
-Do NOT:
-- Change the component's public API
-- Add new features
-- Modify tests (we'll verify they still pass)
-`;
-```
+> Refactor this component to use our new design system.
+>
+> Current component:
+> [paste component code]
+>
+> Design system patterns to use:
+> [paste relevant examples]
+>
+> **Requirements:**
+> - Maintain all existing props and behavior
+> - Use design system tokens for colors, spacing
+> - Keep the same test coverage
+> - Add a brief comment noting the migration
+>
+> **Do NOT:**
+> - Change the component's public API
+> - Add new features
+> - Modify tests (we'll verify they still pass)
 
 ### Debugging Workflows
 
@@ -230,7 +217,33 @@ Generate the migrated code and list any manual steps needed.
 
 ## Vibe Coding
 
+> **Vibe Coding**: A development approach where you describe what you want in natural language and let AI generate code with minimal specification. Emphasizes speed over precision—useful for prototyping, risky for production.
+
 "Vibe coding" means generating code quickly without detailed specs—useful for exploration but risky for production.
+
+```
+The Vibe Coding Spectrum
+────────────────────────
+
+  Vibe Coding ◄────────────────────────────────► Spec-Driven Dev
+
+  "Make a login page"                    Full requirements doc
+        │                                       │
+        ▼                                       ▼
+   ┌─────────┐                            ┌─────────┐
+   │  FAST   │                            │  SLOW   │
+   │  ROUGH  │                            │ PRECISE │
+   │  RISKY  │                            │  SAFE   │
+   └─────────┘                            └─────────┘
+        │                                       │
+        └──────── GRADUATE OVER TIME ──────────┘
+
+  Good for:                               Good for:
+  • First 70%                             • Last 30%
+  • Prototypes                            • Production
+  • Internal tools                        • Security-critical
+  • Learning                              • Edge cases
+```
 
 ### When Vibe Coding Works
 
@@ -297,6 +310,8 @@ When you need production quality:
 4. **Review thoroughly**: Don't just accept
 
 ## Spec-Driven Development (SDD)
+
+> **Spec-Driven Development (SDD)**: An AI-assisted development approach where you write detailed specifications (acceptance criteria, constraints, APIs) *before* asking AI to generate code. Reduces "AI thrash" and improves output quality.
 
 SDD inverts the vibe coding approach: define acceptance criteria before generating code.
 
@@ -403,15 +418,134 @@ async function aiAssistedWorkflow(task: Task) {
 }
 ```
 
+## Managing Context in Long Sessions
+
+> **Context Drift**: The gradual loss of coherence in long conversations as earlier context gets pushed out of the model's effective attention window. The model "forgets" earlier decisions and constraints.
+
+Long AI-assisted coding sessions can degrade over time as the context window fills up. Watch for these signs:
+- Model forgets earlier decisions
+- Contradicts previous statements
+- Ignores constraints from earlier in the thread
+- Quality degrades over time
+
+### Monitor Context Usage
+
+Most AI coding tools show context percentage (e.g., "45K/128K tokens"). Watch this:
+- **Below 60%**: Safe zone
+- **60-80%**: Quality may degrade; consider checkpointing
+- **Above 80%**: Actively degrade; take action
+
+**Important**: Context quality degrades before reaching 100% capacity. Most models show degraded performance starting at 60-80% capacity due to attention dilution and the "lost in the middle" problem.
+
+### Tool Checkpointing Features
+
+Many tools offer session management:
+- **Claude Code**: Automatic compaction buffer; use `/clear` to restart with summary
+- **aider**: Use `git commit` to checkpoint; start fresh session if needed
+- **Cursor**: Session history; can reference previous sessions
+
+### Manual Checkpointing with Git
+
+```bash
+# After completing a task
+git add -A
+git commit -m "feat: implement user authentication"
+
+# Start a new session with the agent
+# Provide context: "I just completed user auth (see last commit). Now implement password reset."
+```
+
+### Start Fresh Sessions with Summaries
+
+When context is bloated, summarize and restart:
+
+```markdown
+## Session Summary
+- Implemented user authentication with JWT
+- Added password hashing with bcrypt
+- Created auth middleware for protected routes
+- Tests passing, code committed
+
+## Current Focus
+Implement password reset flow with email verification.
+```
+
+### Auto-Compress Features
+
+Tools like Claude Code automatically compress older messages to preserve recent context. This is mostly transparent, but you may notice:
+- Very old messages summarized or dropped
+- Recent messages preserved in full
+- Key constraints may need restating
+
+### Handling Stale Documentation
+
+Models have training cutoff dates. For frameworks and libraries released or updated after the cutoff, the model may suggest outdated patterns.
+
+**Strategies:**
+
+**1. Include docs directly in context**
+
+When working with new library versions, paste relevant documentation:
+
+```markdown
+Use this documentation (may differ from your training):
+
+[paste current documentation]
+
+Now implement: [task]
+```
+
+**2. Use retrieval tools (MCP servers)**
+
+Configure your AI tool with an MCP server that fetches current documentation. [Context7](https://github.com/upstash/context7) provides up-to-date documentation for popular libraries.
+
+Example Claude Desktop config:
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7"]
+    }
+  }
+}
+```
+
+**3. Convert web docs to Markdown snapshots**
+
+Download and convert official docs to include in your project:
+
+```bash
+# Example: Download and convert React docs
+npx @anthropic-ai/doc-snapshot https://react.dev/reference --output ./docs/react
+```
+
+Then reference these files in your prompts.
+
+**4. Prompt the model to check versions**
+
+Be explicit about the version you're using:
+
+```markdown
+I'm using React Router v6.22 (released Jan 2025).
+Your training may be on v6.x earlier. If unsure about v6.22 specifics,
+tell me and I'll provide the docs.
+
+Task: Implement nested routing with lazy loading.
+```
+
 ## Common Pitfalls
 
 - **Skipping the spec.** "I'll figure it out as I go" → endless iterations.
 - **Checkpoints too far apart.** Small commits are easier to debug and revert.
 - **Not verifying context.** AI needs accurate code context to generate correct code.
 - **Accepting vibe code for production.** That last 30% matters.
+- **Ignoring context usage.** Watch your context percentage; don't wait until 100%.
+- **Pasting production secrets.** Avoid pasting API keys, passwords, or customer PII from logs.
 
 ## Related
 
 - [Testing and Quality](./testing-quality.md) — Verifying generated code
 - [Prompting](../01-core-concepts/prompting.md) — Writing effective prompts
 - [Tooling Ecosystem](./tooling-ecosystem.md) — Choosing the right tool
+- [LLM Mechanics](../01-core-concepts/llm-mechanics.md) — Context windows and token costs

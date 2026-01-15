@@ -14,6 +14,33 @@
 
 ### Tool Categories
 
+```
+AI Dev Tool Spectrum
+────────────────────
+
+           ◄─── Less Autonomy                More Autonomy ───►
+
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│   AUTOCOMPLETE  │  │   IDE AGENTS    │  │   CLI AGENTS    │
+│                 │  │                 │  │                 │
+│ • Tab complete  │  │ • Chat + edits  │  │ • Full autonomy │
+│ • Line/block    │  │ • Multi-file    │  │ • Shell access  │
+│ • You drive     │  │ • Collaborative │  │ • Delegation    │
+│                 │  │                 │  │                 │
+│ Cursor stays    │  │ Cursor moves    │  │ You step away   │
+│ with you        │  │ together        │  │                 │
+└─────────────────┘  └─────────────────┘  └─────────────────┘
+
+Best for:           Best for:           Best for:
+• Flow state        • Understanding     • Large tasks
+• Boilerplate       • Refactoring       • Migrations
+• Known patterns    • Multi-file work   • Repo-wide changes
+```
+
+> **IDE Agent**: An AI assistant integrated into your development environment that understands project structure, can access multiple files, and collaborates through chat and direct code edits.
+
+> **CLI Agent**: An AI assistant running in your terminal with access to shell commands, file system, and git. Designed for autonomous task completion with minimal intervention.
+
 **1. Inline Autocomplete (Copilots)**
 
 Complete code as you type. Best for:

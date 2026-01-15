@@ -431,4 +431,4 @@ Continue from where we left off.`,
 
 - [Security](./security.md) — Prompt injection defenses
 - [Product Patterns and UX](./product-patterns-ux.md) — User-facing state display
-- [Context Management](../01-core-concepts/context-management.md) — Foundation concepts
+- [LLM Mechanics](../01-core-concepts/llm-mechanics.md) — Context windows and token management

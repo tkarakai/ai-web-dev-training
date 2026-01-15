@@ -55,6 +55,8 @@ Output format:
 
 ### Instruction Hierarchy
 
+> **Instruction Hierarchy**: The implicit priority order LLMs use when processing conflicting instructions. System prompts > earlier messages > recent messages.
+
 Models process instructions with implicit priority:
 
 1. **System prompt**: Highest priority, sets overall behavior
@@ -68,6 +70,8 @@ This hierarchy matters for:
 - **Debugging**: When output is wrong, check which level is being violated
 
 ### Few-Shot Prompting
+
+> **Few-Shot Prompting**: Providing 2-5 input/output examples in your prompt to demonstrate the desired behavior. The model learns the pattern from examples rather than explicit rules.
 
 For complex outputs, examples work better than descriptions:
 
@@ -92,6 +96,8 @@ Guidelines for examples:
 - Match your actual output format exactly
 
 ### Chain of Thought (CoT)
+
+> **Chain of Thought (CoT)**: A prompting technique that asks the model to show its reasoning step-by-step before giving a final answer. Dramatically improves accuracy on logic, math, and multi-step problems.
 
 For complex reasoning, ask the model to think step-by-step:
 
@@ -251,9 +257,51 @@ Verification strategies:
 
 ## Agentic Workflows
 
+> **Agentic Workflow**: A pattern where the LLM operates in a loop—planning actions, executing tools, observing results, and iterating until a goal is achieved. Unlike single-shot prompts, agents can take multiple steps and adapt based on outcomes.
+
 When single prompts aren't enough, use agent loops.
 
 ### The Basic Agent Loop
+
+```
+┌────────────────────────────────────────────────────────────┐
+│                   Agent Loop Pattern                       │
+└────────────────────────────────────────────────────────────┘
+
+                    ┌──────────────┐
+                    │     Goal     │
+                    └──────┬───────┘
+                           │
+                           ▼
+              ┌────────────┐
+              │            ▼
+              │      ┌─────────┐
+              │      │  PLAN   │ ◄─── What should I do next?
+              │      └────┬────┘
+              │           │
+              │           ▼
+              │      ┌─────────┐
+              │      │   ACT   │ ◄─── Execute tool/action
+              │      └────┬────┘
+              │           │
+              │           ▼
+              │      ┌─────────┐
+   LOOP ──────┤      │ OBSERVE │ ◄─── Record results
+              │      └────┬────┘
+              │           │
+              │           ▼
+              │     ┌───────────┐
+              │     │  Done?    │
+              │     └─────┬─────┘
+              │       No  │  Yes
+              │       ◄───┴───►
+              │       │       │
+              └───────┘       │
+                              ▼
+                       ┌──────────┐
+                       │  Result  │
+                       └──────────┘
+```
 
 ```typescript
 interface AgentState {
@@ -323,7 +371,9 @@ const agentConfig = {
 
 ### ReAct Pattern
 
-ReAct (Reasoning + Acting) separates thinking from doing:
+> **ReAct (Reasoning + Acting)**: A prompting framework where the model explicitly outputs its THOUGHT (reasoning) before each ACTION (tool use). Makes agent behavior transparent and debuggable.
+
+ReAct separates thinking from doing:
 
 ```typescript
 const reactPrompt = `You are an assistant that solves problems step by step.
@@ -358,6 +408,6 @@ This pattern:
 
 ## Related
 
-- [Context Management](./context-management.md) — How to provide effective context
+- [LLM Mechanics](./llm-mechanics.md) — Context windows and the relevance principle
 - [Security](../04-shipping-ai-features/security.md) — Protecting against prompt injection
 - [Multi-Agent Orchestration](../04-shipping-ai-features/multi-agent-orchestration.md) — Complex agent patterns

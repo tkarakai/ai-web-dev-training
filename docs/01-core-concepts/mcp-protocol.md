@@ -47,6 +47,35 @@ This makes MCP the de facto standard for AI tool integration.
 
 ### Core Primitives
 
+MCP has four core building blocks:
+
+```
+MCP Architecture
+────────────────
+
+┌──────────────────────────────────────────────────────────────────┐
+│                          MCP SERVER                              │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ┌───────────┐   ┌───────────┐   ┌────────────┐   ┌──────────┐  │
+│   │   TOOLS   │   │ RESOURCES │   │  PROMPTS   │   │ SAMPLING │  │
+│   │           │   │           │   │            │   │          │  │
+│   │ • Actions │   │ • Data    │   │ • Templates│   │ • LLM    │  │
+│   │ • Side    │   │ • Files   │   │ • Workflows│   │   calls  │  │
+│   │   effects │   │ • APIs    │   │ • Reusable │   │          │  │
+│   └───────────┘   └───────────┘   └────────────┘   └──────────┘  │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+         ▲
+         │  JSON-RPC over stdio or HTTP/SSE
+         ▼
+┌──────────────────────────────────────────────────────────────────┐
+│                      AI CLIENT (Model)                           │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+> **MCP Server**: A process that exposes tools, resources, and prompts via the MCP protocol. Can be local (subprocess) or remote (HTTP service).
+
 **1. Servers**: Processes that provide capabilities
 
 ```typescript
@@ -62,6 +91,8 @@ const server = {
   },
 };
 ```
+
+> **MCP Tool**: An action the model can invoke, with a defined input schema. Tools can have side effects (create files, call APIs, modify databases).
 
 **2. Tools**: Actions the model can invoke
 
@@ -97,6 +128,8 @@ const tools = [
 ];
 ```
 
+> **MCP Resource**: A URI-addressable piece of data (files, API responses, database records). Read-only—resources don't have side effects.
+
 **3. Resources**: Data the model can access
 
 ```typescript
@@ -116,6 +149,8 @@ const resources = [
   },
 ];
 ```
+
+> **MCP Prompt**: A reusable prompt template with arguments. Useful for standardizing complex operations across tools.
 
 **4. Prompts**: Reusable prompt templates
 
@@ -338,6 +373,74 @@ const tools = [
   },
 ];
 ```
+
+## Known Limitations and Criticisms
+
+While MCP has gained significant adoption, several important limitations and criticisms have emerged in 2025:
+
+### Context Window Bloat
+
+One of the most significant practical issues with MCP is the excessive token consumption from tool definitions.
+
+**The problem**: When you connect an AI agent to multiple MCP servers, every single tool definition loads into the context window upfront. This creates severe scaling limitations:
+
+- The GitHub MCP server alone consumes **55,000 tokens** across its 93 tool definitions
+- Developer Scott Spence measured his MCP setup: **66,000 tokens consumed at conversation start** — one third of Claude Sonnet's 200k context window gone before asking a single question
+- Anthropic reports seeing setups where tool definitions consumed **134K tokens** — roughly half of Claude's entire context window
+
+**Real-world impact**:
+- Cursor enforces a hard limit of 40 tools because more causes problems
+- Claude's output quality visibly degrades after 50+ tools
+- Token usage drops from 150,000 to 2,000 when using Anthropic's code execution approach
+
+**Emerging solutions** (as of late 2025):
+- **Code execution approach**: Anthropic's solution presents MCPs as code APIs that the agent can selectively load
+- **Hierarchical routing**: Tools like code-mode, ToolHive, and Lazy Router expose meta-tools instead of hundreds of individual tools (90-98% token reduction)
+- **Dynamic discovery**: mcp-cli and similar tools implement on-demand tool loading
+- **Official proposals**: SEP-1576 proposes optimizations to reduce schema redundancy
+
+### Security Vulnerabilities
+
+**Tool poisoning** (discovered April 2025 by Invariant Labs):
+- Malicious instructions can be embedded in tool descriptions themselves
+- These instructions are visible to the LLM but not displayed to users
+- MCP tools can mutate their own definitions after installation (you approve a safe-looking tool on Day 1, and by Day 7 it's quietly rerouted your API keys)
+
+**Authentication gaps**:
+- MCP's focus on simplicity means authentication was not well-defined initially
+- Knostic's July 2025 scan of nearly 2,000 internet-exposed MCP servers found **all verified servers lacking authentication**
+- The first MCP authorization spec treats an MCP server as both a resource and an authorization server, creating additional security concerns
+
+**Real incidents**:
+- July 2025: Replit's AI agent deleted a production database containing over 1,200 records, despite explicit "code and action freeze" instructions
+
+### Design and Usability Issues
+
+**Not human-friendly**: While the protocol has a very LLM-friendly interface, it's not always human-friendly. Users may not intend a specific action, but the LLM might decide it's appropriate anyway.
+
+**Parameter generation**: Current MCP assumes all tool calling parameters are exposed to the LLM and all their values are generated by the LLM. This limits fine-grained control.
+
+**Identity management ambiguity**: Determining clear identity — whether requests originate from the end user, the AI agent, or a shared system account — remains unclear. This poses risks for auditing, accountability, and access control in enterprise deployments.
+
+### Mitigation Strategies
+
+Despite these issues, MCP remains valuable when used carefully:
+
+**For context bloat**:
+- Limit the number of MCP servers connected simultaneously
+- Use hierarchical routing or code execution approaches when available
+- Monitor context usage and tool counts actively
+
+**For security**:
+- Never expose MCP servers without authentication (see [Security Considerations](#security-considerations))
+- Audit tool definitions regularly for changes
+- Implement comprehensive logging of all tool invocations
+- Apply least privilege principles strictly
+
+**For usability**:
+- Provide clear feedback to users about what actions are being taken
+- Implement confirmation flows for destructive operations
+- Maintain detailed audit logs for accountability
 
 ## Common Pitfalls
 

@@ -34,6 +34,48 @@ Single agent is simpler. Use it when possible.
 
 ### Orchestration Patterns
 
+```
+Multi-Agent Orchestration Patterns
+──────────────────────────────────
+
+SEQUENTIAL (Pipeline)           PARALLEL (Fan-out/Fan-in)
+─────────────────────           ─────────────────────────
+
+┌─────────┐                           ┌─────────┐
+│ Agent A │                      ┌───►│ Agent A │───┐
+└────┬────┘                      │    └─────────┘   │
+     │                           │                   │
+     ▼                     ┌─────┴─────┐       ┌────▼────┐
+┌─────────┐                │  Dispatch │       │ Combine │
+│ Agent B │                └─────┬─────┘       └────┬────┘
+└────┬────┘                      │    ┌─────────┐   │
+     │                           └───►│ Agent B │───┘
+     ▼                                └─────────┘
+┌─────────┐
+│ Agent C │
+└─────────┘
+
+
+HIERARCHICAL (Orchestrator)     MAKER-CHECKER
+───────────────────────────     ──────────────
+
+    ┌──────────────┐            ┌─────────┐
+    │ Orchestrator │            │  Maker  │
+    └──────┬───────┘            └────┬────┘
+           │                         │
+    ┌──────┼──────┐                  ▼
+    │      │      │            ┌─────────┐
+    ▼      ▼      ▼            │ Checker │
+┌─────┐ ┌─────┐ ┌─────┐        └────┬────┘
+│  A  │ │  B  │ │  C  │             │
+└─────┘ └─────┘ └─────┘             ▼ ← Iterate if rejected
+                               ┌─────────┐
+                               │  Maker  │
+                               └─────────┘
+```
+
+> **Orchestrator**: An agent that coordinates other agents, deciding which to invoke and how to combine their outputs. Sometimes called a "router" or "dispatcher" agent.
+
 **1. Sequential (Pipeline)**
 
 Agents hand off to each other in order.

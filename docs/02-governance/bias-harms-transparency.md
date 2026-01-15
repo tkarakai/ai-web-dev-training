@@ -28,14 +28,10 @@ LLMs learn patterns from training data. If that data contains biases—and it do
 
 **Practical example:**
 
-```typescript
-// You ask AI to generate sample user data
-const users = await generateSampleUsers(100);
-
-// Risk: Names might skew toward certain ethnicities
-// Risk: Job titles might correlate with gender stereotypically
-// Risk: Age distributions might not reflect your actual user base
-```
+If you ask AI to generate sample user data:
+- Names might skew toward certain ethnicities
+- Job titles might correlate with gender stereotypically
+- Age distributions might not reflect your actual user base
 
 ### Recognizing Harmful Outputs
 
@@ -43,35 +39,19 @@ Not all problems are obvious. Watch for:
 
 **1. Subtle discrimination**
 
-```typescript
-// Prompt: "Write a job description for a software engineer"
-// Output might use gendered language ("he will...", "guys on the team")
-// Or list requirements that inadvertently exclude certain groups
-```
+Example: Asking AI to "Write a job description for a software engineer" might produce output with gendered language ("he will...", "guys on the team") or list requirements that inadvertently exclude certain groups.
 
 **2. Factual misinformation**
 
-```typescript
-// Prompt: "Explain how to handle user authentication"
-// Output might suggest outdated or insecure practices
-// Presented with confidence, looks authoritative
-```
+Example: Asking "Explain how to handle user authentication" might produce output suggesting outdated or insecure practices, presented with confidence that looks authoritative.
 
 **3. Inappropriate content generation**
 
-```typescript
-// User prompt processed through your app
-// Could manipulate the model into generating harmful content
-// Your app becomes the delivery mechanism
-```
+User prompts processed through your app could manipulate the model into generating harmful content, making your app the delivery mechanism.
 
 **4. Stereotyped recommendations**
 
-```typescript
-// "Suggest products for this user profile"
-// Recommendations might reflect stereotyped assumptions
-// Rather than actual user behavior or preferences
-```
+Example: "Suggest products for this user profile" might produce recommendations based on stereotyped assumptions rather than actual user behavior or preferences.
 
 ### Human Impact Assessment
 

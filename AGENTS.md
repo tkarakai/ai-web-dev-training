@@ -220,6 +220,92 @@ Include links to:
 
 Keep links current. Prefer permalinks or versioned docs when available.
 
+## Enhancing Document Understanding
+
+Use these techniques to make concepts scannable and clear:
+
+### Definition Blocks
+
+Use blockquote format for key term definitions at first introduction:
+
+```markdown
+> **Term Name**: Concise definition (1-2 sentences). Focus on what it is and why it matters.
+```
+
+Example:
+```markdown
+> **RAG (Retrieval-Augmented Generation)**: Architecture where an LLM's response is grounded in retrieved documents rather than relying solely on training data. Reduces hallucination and enables citing sources.
+```
+
+### ASCII Diagrams
+
+Use ASCII diagrams to visualize:
+- Process flows (sequential steps, pipelines)
+- Architecture patterns (components and relationships)
+- Decision trees (when to use X vs Y)
+- Comparisons (side-by-side alternatives)
+
+Guidelines:
+- Keep diagrams simple—clarity over detail
+- Use box drawing characters: `┌ ─ ┐ │ └ ┘ ├ ┤ ┬ ┴ ┼`
+- Align elements for readability
+- Add labels and arrows to show flow
+- Include brief explanations below diagram
+
+Example:
+```markdown
+```
+Process Flow
+────────────
+
+   Input
+     │
+     ▼
+┌─────────┐
+│ Validate│
+└────┬────┘
+     │
+     ▼
+┌─────────┐
+│ Process │
+└────┬────┘
+     │
+     ▼
+   Output
+```
+```
+
+### Use Case Clarity
+
+When a section applies to specific use cases, clarify upfront:
+
+**Two main use cases:**
+- **AI-assisted development**: Using AI tools to write code (IDE copilots, CLI agents)
+- **AI-infused features**: Building AI capabilities into your product (chatbots, RAG systems)
+
+Mark sections clearly:
+```markdown
+### Managing Context (AI-Assisted Development)
+
+When using IDE copilots and CLI agents...
+
+### Managing Context (Building AI Features)
+
+When implementing RAG systems or chatbots...
+```
+
+Or use a callout:
+```markdown
+> **Use case:** This section applies to building AI-powered features, not day-to-day coding with AI assistants.
+```
+
+### Avoid Redundancy
+
+Before writing "Common Pitfalls":
+1. Check if pitfalls are already covered in main content
+2. If yes, remove the section or consolidate
+3. Only keep pitfalls that add new, actionable warnings
+
 ## Do Not
 
 - Include time estimates ("this takes 2 weeks to learn")

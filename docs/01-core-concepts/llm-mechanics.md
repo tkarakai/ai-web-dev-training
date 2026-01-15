@@ -14,7 +14,30 @@
 
 ### Tokens and Tokenization
 
-LLMs don't see text—they see tokens. A token is roughly 4 characters or ¾ of a word in English. The model breaks your input into tokens, processes them, and generates new tokens as output.
+> **Token**: The smallest unit of text an LLM processes. Not characters, not words—tokens. Roughly 4 characters or ¾ of a word in English. `"hello"` = 1 token; `"anthropomorphic"` = 4 tokens.
+
+LLMs don't see text—they see tokens. The model breaks your input into tokens, processes them, and generates new tokens as output.
+v
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    LLM Request/Response Flow                    │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   Your Text           Tokenizer            Model                │
+│   ──────────         ───────────          ────────              │
+│                                                                 │
+│   "Hello, world!"  →  [15496, 11,   →    [Neural    →  [2159]   │
+│                        1917, 0]           Network]              │
+│                                                                 │
+│        │                  │                  │            │     │
+│        │                  │                  │            ▼     │
+│        │                  │                  │       Detokenize │
+│        │                  │                  │            │     │
+│        ▼                  ▼                  ▼            ▼     │
+│   Input Text         Token IDs          Prediction    "Hi!"     │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ```typescript
 // Rough token estimation (actual tokenization varies by model)
@@ -37,7 +60,7 @@ Use [OpenAI's tokenizer](https://platform.openai.com/tokenizer) or [tiktoken](ht
 
 ### Context Windows
 
-The context window is everything the model can see at once: your system prompt, conversation history, any documents you've included, and the response it's generating.
+> **Context Window**: The maximum number of tokens an LLM can process in a single request. This includes your prompt *and* the model's response. Think of it as the model's "working memory."
 
 | Model | Context Window | Rough Equivalent |
 |-------|---------------|------------------|
@@ -50,9 +73,100 @@ Practical implications:
 - Models perform better on content near the beginning and end of context ("lost in the middle" problem)
 - Context windows have expanded dramatically—use this for RAG, long documents, and multi-file code analysis
 
+### What Goes in Context
+
+Everything the model sees forms its context. The context window contains:
+- **System prompt**: Your instructions and constraints
+- **Conversation history**: Previous messages in the thread
+- **Retrieved documents**: RAG results, file contents
+- **User message**: Current request
+- **Model response**: The output being generated
+
+All of this counts toward your token limit and affects:
+- **Accuracy**: More relevant context leads to better answers
+- **Cost**: More tokens means higher bills
+- **Latency**: More tokens means slower responses
+- **Focus**: Irrelevant context leads to confused outputs
+
+If the total context exceeds the model's limit, content gets cut off—usually silently, often from the middle.
+
+### The Relevance Principle
+
+> **Context Relevance**: The degree to which provided information directly helps answer the current question. High relevance produces accurate answers. Low relevance causes confusion, hallucination, or wasted tokens.
+
+```
+  ┌─────────────────┐     ┌─────────────────┐
+  │ HIGH RELEVANCE  │     │  LOW RELEVANCE  │
+  │                 │     │                 │
+  │ • Login code    │     │ • Entire repo   │
+  │ • Auth types    │     │ • Unrelated     │
+  │ • Error logs    │     │   modules       │
+  │                 │     │ • Generic docs  │
+  └────────┬────────┘     └────────┬────────┘
+           │                       │
+           ▼                       ▼
+      ┌─────────┐            ┌───────────┐
+      │  GOOD   │            │   POOR    │
+      │ Focused │            │ Confused  │
+      │ Correct │            │ Verbose   │
+      └─────────┘            └───────────┘
+```
+
+**Include information that's:**
+- Directly relevant to the current task
+- Not inferrable from common knowledge
+- Necessary for correct behavior
+
+**Exclude:**
+- Information the model already knows
+- Tangentially related content
+- Duplicate or redundant information
+
+**Example comparison:**
+
+Bad approach - dumping everything:
+```
+Here's our entire codebase documentation...
+[50 pages of docs]
+
+Now answer this question about the login function.
+```
+
+Good approach - focused context:
+```
+Here's the login function and its tests:
+[actual login function code]
+
+Related types:
+[relevant type definitions]
+
+Question: Why does login fail when the session token is expired?
+```
+
+The focused approach is faster, cheaper, and produces better results.
+
 ### Sampling and Temperature
 
+> **Sampling**: The process of selecting the next token from a probability distribution. The model doesn't "know" what comes next—it predicts probabilities and picks one.
+
+> **Temperature**: A parameter (0-2) controlling randomness in token selection. Lower = more deterministic and focused. Higher = more random and creative.
+
 LLMs are probabilistic. Given a prompt, the model calculates probabilities for every possible next token and samples from that distribution.
+
+```
+Temperature Effect on Token Selection
+─────────────────────────────────────
+
+Prompt: "The capital of France is"
+
+Next token probabilities:     temp=0         temp=0.7        temp=1.5
+                              ───────        ────────        ────────
+  "Paris"     → 85%           ✓ Always       ✓ Usually       ✓ Often
+  "the"       → 8%            ✗ Never        ✗ Rarely        ? Sometimes
+  "a"         → 4%            ✗ Never        ✗ Rarely        ? Sometimes
+  "located"   → 2%            ✗ Never        ✗ Very rare     ? Occasionally
+  "unknown"   → 1%            ✗ Never        ✗ Very rare     ? Occasionally
+```
 
 **Temperature** controls randomness:
 - `temperature: 0` — Always pick the most likely token (deterministic-ish)
@@ -69,7 +183,12 @@ const response = await openai.chat.completions.create({
 ```
 
 **Other sampling parameters:**
-- `top_p` (nucleus sampling): Consider only tokens comprising the top P% of probability mass
+
+> **top_p (nucleus sampling)**: Only consider tokens that together make up P% of probability mass. `top_p=0.9` means ignore the bottom 10% of unlikely tokens.
+
+> **top_k**: Only consider the K most likely next tokens. `top_k=50` ignores all but the 50 most probable options.
+
+- `top_p`: Consider only tokens comprising the top P% of probability mass
 - `top_k`: Consider only the K most likely tokens
 - `seed`: Some APIs support seeds for reproducibility (but it's not guaranteed)
 
@@ -158,6 +277,8 @@ This is a genuine trade-off, not a clear winner.
 | 13B params | 16GB | Llama 2 13B |
 | 70B params | 48GB+ | Llama 3.1 70B |
 
+> **Quantization**: Compressing model weights from 32-bit or 16-bit floats to lower precision (8-bit, 4-bit). Trades some quality for dramatically reduced memory and faster inference.
+
 **Quantization** reduces memory requirements by using lower precision:
 - Q8 (8-bit): ~50% size reduction, minimal quality loss
 - Q4 (4-bit): ~75% size reduction, noticeable but usable quality loss
@@ -198,6 +319,7 @@ For llama.cpp, look for **GGUF** format models. [TheBloke](https://huggingface.c
 
 ## Related
 
-- [Context Management](./context-management.md) — How to use your context window effectively
 - [Prompting](./prompting.md) — How to write prompts that work
+- [Day-to-Day Workflows](../03-ai-assisted-development/day-to-day-workflows.md) — Managing context in AI-assisted development
+- [RAG Systems](../04-shipping-ai-features/rag-systems.md) — Context window management strategies for production
 - [Model Routing](../04-shipping-ai-features/model-routing.md) — Choosing models dynamically in production

@@ -33,6 +33,41 @@ This has implications:
 
 ### AI Failure Modes
 
+Understanding these failure modes is critical for safe AI usage:
+
+```
+AI Failure Modes at a Glance
+────────────────────────────
+
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│  HALLUCINATION  │  │   CONFIDENT     │  │   TRAINING      │
+│                 │  │   WRONGNESS     │  │   STALENESS     │
+│ Invents things  │  │ Wrong with same │  │ Knowledge cutoff│
+│ that don't exist│  │ confidence as   │  │ means outdated  │
+│                 │  │ correct answers │  │ information     │
+└────────┬────────┘  └────────┬────────┘  └────────┬────────┘
+         │                    │                    │
+         ▼                    ▼                    ▼
+    Verify APIs          Question claims      Provide current
+    Check imports        Verify facts         documentation
+    Test code            Check docs           Use RAG
+
+┌─────────────────┐  ┌─────────────────┐
+│  CONTEXT DRIFT  │  │    PROMPT       │
+│                 │  │   INJECTION     │
+│ Loses track of  │  │ Malicious input │
+│ earlier context │  │ overrides your  │
+│ in long threads │  │ instructions    │
+└────────┬────────┘  └────────┬────────┘
+         │                    │
+         ▼                    ▼
+    Periodic summaries   Input sanitization
+    Fresh sessions       Output validation
+    Repeat constraints   Defense in depth
+```
+
+> **Hallucination**: When an LLM generates content that appears factual but is fabricated—fake APIs, non-existent functions, made-up facts. The model doesn't "know" it's wrong.
+
 **1. Hallucination**
 
 The model invents things that don't exist: fake APIs, non-existent libraries, plausible-sounding but wrong functions.
@@ -49,6 +84,8 @@ Detection:
 - Verify imports and dependencies actually exist
 - Check that API calls match actual documentation
 - Test generated code—don't just read it
+
+> **Confident Wrongness**: The tendency of LLMs to present incorrect information with the same authoritative tone as correct information. There's no built-in uncertainty signal.
 
 **2. Confident wrongness**
 
@@ -99,8 +136,10 @@ In long conversations, models lose track of earlier constraints and decisions.
 
 Defense:
 - Reiterate important constraints periodically
-- Use conversation summaries (see [Context Management](../01-core-concepts/context-management.md))
+- Use conversation summaries and checkpoints (see [Day-to-Day Workflows](../03-ai-assisted-development/day-to-day-workflows.md))
 - Keep conversations focused; start fresh for new tasks
+
+> **Prompt Injection**: An attack where malicious input tricks an LLM into ignoring its original instructions and following attacker-provided instructions instead. Similar to SQL injection but for LLMs.
 
 **5. Prompt injection**
 
@@ -218,4 +257,4 @@ After AI generates code:
 
 - [Bias, Harms, and Transparency](./bias-harms-transparency.md) — Recognizing problematic outputs
 - [Operational Guardrails](./operational-guardrails.md) — Practical day-to-day policies
-- [Context Management](../01-core-concepts/context-management.md) — Avoiding context drift
+- [Day-to-Day Workflows](../03-ai-assisted-development/day-to-day-workflows.md) — Managing context in long sessions

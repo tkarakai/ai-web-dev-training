@@ -1,9 +1,5 @@
 # How to use AI for Web Development
 
-**Document version:** v1.1\
-**Document last updated:** 14 Jan 2026\
-**Document Owner:** Tamas Karakai
-
 This guide is a practical map for using generative AI in web engineering. It's organized into four sections:
 
 - **Core Concepts:** how LLMs work, prompting, context management, and protocols.
@@ -13,28 +9,31 @@ This guide is a practical map for using generative AI in web engineering. It's o
 
 **Scope note:** This document focuses on generative AI for text and voice (LLMs, STT/TTS, tool-using agents). It excludes Computer Vision, image/audio generation, and non-generative ML unless explicitly noted.
 
----
 
 ## How to Use This Document
 
+This page serves as the **index and summary**. Each topic links to a detailed guide in the corresponding section folder.
+
 **New to AI-assisted development?**
-Start with Core Concepts (all sections), then Governance, then AI-Assisted Development.
+Start with [Core Concepts](./01-core-concepts/) (all sections), then [Governance](./02-governance/), then [AI-Assisted Development](./03-ai-assisted-development/).
 
 **Already using AI tools, now shipping AI features?**
-Skim Core Concepts and Governance for shared vocabulary, then focus on Shipping AI Features.
+Skim Core Concepts and Governance for shared vocabulary, then focus on [Shipping AI Features](./04-shipping-ai-features/).
 
 **Quick reference?**
-Jump directly to the section you need. Each section is self-contained with "Topics" and "Enables you to" summaries.
+Jump directly to the topic you need using the links below. Each detailed guide has TL;DR, Core Concepts, Common Pitfalls, and Related sections.
 
----
 
 ## Core Concepts
 
-### LLM Mechanics
+> Detailed guides: [01-core-concepts/](./01-core-concepts/)
+
+### [LLM Mechanics](./01-core-concepts/llm-mechanics.md)
 
 **Topics**
 - Tokens / cost / latency / truncation
 - Context windows and sampling controls
+- **Context management**: what goes in context, the relevance principle, context degradation
 - Determinism, reproducibility, and why "close enough" is dangerous in prod
 - **Open-source vs. proprietary LLMs**
   - Trade-offs: quality, cost, control, privacy, and operational overhead
@@ -49,9 +48,10 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 **Enables you to**
 - Choose a model/serving approach based on latency, cost, and privacy constraints
 - Understand why prompt length and context strategy dominate cost/perf
+- Provide relevant context while avoiding overload and confusion
 - Predict and mitigate truncation and nondeterminism issues
 
-### Prompting and Interaction Patterns
+### [Prompting and Interaction Patterns](./01-core-concepts/prompting.md)
 
 **Topics**
 - Instruction hierarchy, constraints, examples, output formats
@@ -67,28 +67,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Iteratively debug prompts by controlling variables and tightening constraints
 - Design "safe prompts" that include verification steps (tests, validators)
 
-### Context Management
-
-**Topics**
-- How to provide the right repo/code/doc context
-- Summarization and drift control for long threads
-- Watching context length to avoid overload and confusion
-- Context compaction strategies (when supported by tools)
-- Avoiding accidental leakage of secrets/PII in prompts
-- Data lifecycle basics: logging, retention, redaction, training opt-out
-- **LLM-friendly documentation strategies (intro)**
-  - Write docs that work as model context: explicit contracts, examples, edge cases, "do/don't"
-  - Handling "docs newer than model training data":
-    - convert web docs to curated Markdown snapshots
-    - controlled browsing (only in allowed environments/tools)
-    - retrieval tools and doc servers
-
-**Enables you to**
-- Create "context bundles" that maximize accuracy and minimize leakage
-- Keep long-running threads coherent using summaries and checkpoints
-- Make internal docs usable as reliable context for agents
-
-### MCP Protocol Overview
+### [MCP Protocol Overview](./01-core-concepts/mcp-protocol.md)
 
 **Topics**
 - What MCP is: a standard protocol for tool and context interfaces
@@ -102,11 +81,12 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Scope MCP servers safely and assess risk
 - Map MCP usage to developer tooling (AI-Assisted Development) and product architecture (Shipping AI Features)
 
----
 
 ## Governance
 
-### Orientation
+> Detailed guides: [02-governance/](./02-governance/)
+
+### [Orientation](./02-governance/orientation.md)
 
 **Topics**
 - What AI changes in web engineering (SDLC + product outcomes)
@@ -118,7 +98,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Recognize hallucinations, drift, and "confidently wrong" outputs
 - Apply internal policy constraints consistently
 
-### Bias, Harms, and Transparency
+### [Bias, Harms, and Transparency](./02-governance/bias-harms-transparency.md)
 
 **Topics**
 - Common bias and harm patterns in generated outputs
@@ -131,7 +111,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Set expectations and disclosures appropriate to risk level
 - Decide when not to use AI for a given user workflow
 
-### Operational Usage Guardrails
+### [Operational Usage Guardrails](./02-governance/operational-guardrails.md)
 
 **Topics**
 - What can/can't go into prompts (data classification)
@@ -145,7 +125,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Know when AI increases risk more than it helps
 - Create team-level "safe defaults" for AI usage
 
-### Evals Basics
+### [Evals Basics](./02-governance/evals-basics.md)
 
 **Topics**
 - Define success criteria: what "good" means for the task
@@ -158,9 +138,9 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Compare changes objectively before shipping or adopting new prompts
 - Decide when human review is required vs optional
 
-**See also:** For production-grade eval pipelines and CI/CD integration, see [Repeatable Evals and CI/CD for AI Behavior](#repeatable-evals-and-cicd-for-ai-behavior) in Shipping AI Features.
+**See also:** For production-grade eval pipelines and CI/CD integration, see [Repeatable Evals and CI/CD for AI Behavior](./04-shipping-ai-features/evals-cicd.md) in Shipping AI Features.
 
-### Legal, IP, and Compliance Basics
+### [Legal, IP, and Compliance Basics](./02-governance/legal-ip-compliance.md)
 
 **Topics**
 - Provider terms and data usage restrictions (what may be trained on, stored, or shared)
@@ -173,11 +153,12 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Know when to consult legal/compliance before use
 - Apply "safe defaults" for external sharing and publishing
 
----
 
 ## AI-Assisted Development (Using AI to Build Software Faster)
 
-### Tooling Ecosystem and Setup
+> Detailed guides: [03-ai-assisted-development/](./03-ai-assisted-development/)
+
+### [Tooling Ecosystem and Setup](./03-ai-assisted-development/tooling-ecosystem.md)
 
 **Topics**
 - IDE copilots vs editor chat vs CLI agents
@@ -207,7 +188,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Configure local model fallback for privacy or offline use
 - Use retrieval/indexing to supply better context than copy/paste
 
-### Day-to-Day Workflows
+### [Day-to-Day Workflows](./03-ai-assisted-development/day-to-day-workflows.md)
 
 **Topics**
 - Scaffolding with architectural constraints
@@ -233,7 +214,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Use SDD to reduce "AI thrash" and improve consistency
 - Convert vague ideas into testable specs and implementation plans
 
-### Testing and Quality with AI
+### [Testing and Quality with AI](./03-ai-assisted-development/testing-quality.md)
 
 **Topics**
 - Generating tests responsibly (assertion-first prompting)
@@ -247,7 +228,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Generate tests that fail meaningfully when behavior is wrong
 - Use AI to uncover edge cases you didn't think of
 
-### AI-Assisted Technical Writing
+### [AI-Assisted Technical Writing](./03-ai-assisted-development/technical-writing.md)
 
 **Topics**
 - RFCs/ADRs and tradeoff capture
@@ -260,7 +241,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Convert design intent into actionable checklists and tests
 - Improve operational readiness (runbooks, incident response steps)
 
-### Code Review and Governance Practices
+### [Code Review and Governance Practices](./03-ai-assisted-development/code-review-governance.md)
 
 **Topics**
 - Rubric-driven review prompts (security/correctness/perf/maintainability)
@@ -281,11 +262,12 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Reduce review burden by standardizing constraints and verification
 - Ensure AI-generated changes are held to the same quality bar
 
----
 
 ## Shipping AI Features (System Design + Platform)
 
-### Product Patterns and UX for AI Features
+> Detailed guides: [04-shipping-ai-features/](./04-shipping-ai-features/)
+
+### [Product Patterns and UX for AI Features](./04-shipping-ai-features/product-patterns-ux.md)
 
 **Topics**
 - Chat/copilot UX, citations/provenance, revision workflows
@@ -300,7 +282,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Make agent actions auditable and reversible
 - Decide when voice adds value vs complexity
 
-### Message Design and Application State
+### [Message Design and Application State](./04-shipping-ai-features/message-design-state.md)
 
 **Topics**
 - System/developer/user message separation in production
@@ -319,7 +301,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Build predictable multi-turn behaviors
 - Design agents with useful memory without unbounded context growth
 
-### Output Control and Reliability (production-grade)
+### [Output Control and Reliability](./04-shipping-ai-features/output-control.md)
 
 **Topics**
 - Structured outputs with schemas + validators + repair loops
@@ -332,7 +314,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Reduce flakiness with validation and repair loops
 - Test behavior changes like code changes
 
-### API Integration Patterns and Architecture
+### [API Integration Patterns and Architecture](./04-shipping-ai-features/api-integration.md)
 
 **Topics**
 - Chat vs agentic APIs; tool-based designs
@@ -352,7 +334,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Integrate tools without turning the model into a privileged backdoor
 - Use MCP where it improves maintainability and interoperability
 
-### Multi-Agent Systems and Orchestration
+### [Multi-Agent Systems and Orchestration](./04-shipping-ai-features/multi-agent-orchestration.md)
 
 **Topics**
 - When to use single-agent vs multi-agent architectures
@@ -379,7 +361,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Maintain observability and control across agent boundaries
 - Prevent cascading failures and runaway costs
 
-### Moderation, Rate Limits, User Reporting, and Policy Enforcement
+### [Moderation, Rate Limits, User Reporting, and Policy Enforcement](./04-shipping-ai-features/moderation-policy.md)
 
 **Topics**
 - Moderation models and policy layers (pre/post filters, allow/deny lists)
@@ -393,7 +375,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Build clear user-facing escalation and reporting paths
 - Balance safety controls with usable UX
 
-### Security: Prompt Injection, Tool Abuse, Exfiltration
+### [Security: Prompt Injection, Tool Abuse, Exfiltration](./04-shipping-ai-features/security.md)
 
 **Topics**
 - Direct/indirect injection; confused deputy problems
@@ -416,7 +398,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Anticipate emerging attack vectors (multimodal, indirect injection)
 - Prevent tool misuse and data leakage
 
-### Observability and Monitoring for LLM Systems
+### [Observability and Monitoring for LLM Systems](./04-shipping-ai-features/observability.md)
 
 **Topics**
 - End-to-end tracing: request → retrieval → model → tools → response
@@ -429,7 +411,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Detect drift before users do
 - Create operational playbooks for AI incidents
 
-### Repeatable Evals and CI/CD for AI Behavior
+### [Repeatable Evals and CI/CD for AI Behavior](./04-shipping-ai-features/evals-cicd.md)
 
 **Topics**
 - Offline eval harnesses and golden conversations
@@ -442,7 +424,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Use eval gates to prevent regressions
 - Compare models/prompts objectively
 
-### Retrieval-Augmented Generation (RAG) Systems
+### [Retrieval-Augmented Generation (RAG) Systems](./04-shipping-ai-features/rag-systems.md)
 
 **Topics**
 - Chunking, indexing, hybrid search, reranking
@@ -458,7 +440,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Prevent stale or unauthorized knowledge leakage
 - Improve retrieval quality via structure and evaluation
 
-### Fine-Tuning and Customization Strategy
+### [Fine-Tuning and Customization Strategy](./04-shipping-ai-features/fine-tuning.md)
 
 **Topics**
 - Decision framework: prompt/templates vs RAG vs fine-tune
@@ -471,7 +453,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Avoid "fine-tune by default"
 - Plan for lifecycle: data, evals, monitoring, rollback
 
-### Model Routing and Cost/Latency Engineering
+### [Model Routing and Cost/Latency Engineering](./04-shipping-ai-features/model-routing.md)
 
 **Topics**
 - Task-based routing, dynamic routing signals
@@ -487,7 +469,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Design robust degraded modes
 - Use routing to optimize quality where it matters
 
-### Deployment, Versioning, and Change Management
+### [Deployment, Versioning, and Change Management](./04-shipping-ai-features/deployment-versioning.md)
 
 **Topics**
 - Version prompts/templates/tool schemas/eval sets/corpora
@@ -499,7 +481,7 @@ Jump directly to the section you need. Each section is self-contained with "Topi
 - Roll back safely when behavior changes regress
 - Maintain compatibility as tools/schemas evolve
 
-### Voice Interfaces (STT/TTS + Voice-specific challenges)
+### [Voice Interfaces (STT/TTS + Voice-specific challenges)](./04-shipping-ai-features/voice-interfaces.md)
 
 **Topics**
 - Voice pipeline: STT → LLM → TTS
