@@ -1,0 +1,367 @@
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 12px);
+	padding: 20px 70px 20px 70px;
+	line-height: 1.5; /* GitHub-like line height */
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 0;
+	border-bottom: 1px solid var(--gh-heading-border, currentColor);
+	margin: 24px 0;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+/* GitHub-like base spacings */
+p, ul, ol, blockquote, pre, table {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+ul, ol {
+    padding-left: 2em;
+}
+
+/* GitHub-like blockquote */
+.vscode-light blockquote {
+    margin: 0;
+    padding: 0 1em;
+    color: #57606a;
+    border-left: .25em solid #d0d7de;
+    background: none;
+}
+.vscode-dark blockquote {
+    margin: 0;
+    padding: 0 1em;
+    color: #8b949e;
+    border-left: .25em solid #30363d;
+    background: none;
+}
+
+/* GitHub-like tables */
+table {
+    border-collapse: collapse;
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow: auto;
+}
+.vscode-light table th, .vscode-light table td {
+    border: 1px solid #d0d7de;
+    padding: 6px 13px;
+}
+.vscode-dark table th, .vscode-dark table td {
+    border: 1px solid #30363d;
+    padding: 6px 13px;
+}
+table th { text-align: left; }
+
+/* GitHub-like inline code */
+:not(pre):not(.hljs) > code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 85%;
+    border-radius: 6px;
+    padding: .2em .4em;
+}
+.vscode-light :not(pre):not(.hljs) > code {
+    color: #24292f;
+    background-color: rgba(175, 184, 193, 0.2);
+}
+.vscode-dark :not(pre):not(.hljs) > code {
+    color: #c9d1d9;
+    background-color: rgba(110, 118, 129, 0.4);
+}
+
+/* GitHub-like code blocks */
+pre:not(.hljs),
+pre.hljs code > div,
+pre code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 85%;
+}
+.vscode-light pre {
+    background-color: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+}
+.vscode-dark pre {
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+}
+pre:not(.hljs),
+pre.hljs code > div {
+    padding: 6px;
+    overflow: auto;
+}
+pre code {
+    tab-size: 4;
+    line-height: 1.4; /* tighter code block line height */
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* GitHub-like links */
+.vscode-light a { color: #0969da; }
+.vscode-dark a { color: #58a6ff; }
+
+/* Auto-number headings and lists (H2/H3 and their first lists) */
+body { counter-reset: h2; }
+
+/* H2 numbering: 1, 2, 3 ... */
+h2 { counter-increment: h2; counter-reset: h3; }
+h2::before { content: counter(h2) ". "; }
+
+/* H3 numbering: 1.1, 1.2, ... (within current H2) */
+h3 { counter-increment: h3; }
+h3::before { content: counter(h2) "." counter(h3) ". "; }
+
+/* Lists immediately after H2 (or a paragraph right after H2): 1.1, 1.2 ... */
+h2 + ol,
+h2 + p + ol {
+    list-style: none;
+    counter-reset: item;
+    padding-left: 2.5em; /* space for 1.1 */
+    margin-left: 1.5em; /* indent block like regular list */
+    list-style-position: outside;
+}
+h2 + ol > li,
+h2 + p + ol > li {
+    position: relative;
+    margin: 0.35em 0;
+}
+h2 + ol > li::before,
+h2 + p + ol > li::before {
+    position: absolute;
+    left: -2.5em;
+    content: counter(h2) "." counter(item) " ";
+    counter-increment: item;
+    font-weight: normal; /* match GitHub list marker weight */
+}
+
+/* Lists immediately after H3 (or a paragraph right after H3): 1.1.1, 1.1.2 ... */
+h3 + ol,
+h3 + p + ol {
+    list-style: none;
+    counter-reset: item;
+    padding-left: 3em; /* space for 1.1.1 */
+    margin-left: 2em; /* deeper indent for sublist */
+    list-style-position: outside;
+}
+h3 + ol > li,
+h3 + p + ol > li {
+    position: relative;
+    margin: 0.35em 0;
+}
+h3 + ol > li::before,
+h3 + p + ol > li::before {
+    position: absolute;
+    left: -3em;
+    content: counter(h2) "." counter(h3) "." counter(item) " ";
+    counter-increment: item;
+    font-weight: normal; /* match GitHub list marker weight */
+}
+
+/* GitHub-style heading typography */
+:root { --gh-heading-border: #d0d7de; }
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+h1 {
+    font-size: 2em;
+    padding-bottom: .3em;
+    border-bottom: 1px solid var(--gh-heading-border);
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+h2 {
+    font-size: 1.5em;
+    padding-bottom: .3em;
+    border-bottom: 1px solid var(--gh-heading-border);
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 1.25em;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+h4 {
+    font-size: 1em;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+h5 {
+    font-size: .875em;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+h6 {
+    font-size: .85em;
+    color: #57606a;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
