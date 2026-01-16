@@ -1,6 +1,6 @@
 # How to use AI for Web Development
 
-This guide is a practical map for using generative AI in web engineering. It's organized into four sections:
+This is a collection of practical insights and patterns for using generative AI in web engineering. It's organized into four sections:
 
 - **Core Concepts:** how LLMs work, prompting, context management, and protocols.
 - **Governance:** policies, risks, ethics, and compliance.
