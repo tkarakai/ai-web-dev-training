@@ -1,6 +1,6 @@
 # Observability and Monitoring for LLM Systems
 
-> Tracing, cost tracking, quality monitoring, and drift detection for AI in production.
+Tracing, cost tracking, quality monitoring, and drift detection for AI in production.
 
 ## TL;DR
 
@@ -428,6 +428,13 @@ const alertRules = [
 
 ## Related
 
-- [Evals and CI/CD](./evals-cicd.md) — Automated quality testing
 - [Model Routing](./model-routing.md) — Cost optimization
 - [Deployment and Versioning](./deployment-versioning.md) — Tracking changes
+
+## Previous
+
+- [Security](./security.md)
+
+## Next
+
+- [Evals and CI/CD for AI](./evals-cicd.md)

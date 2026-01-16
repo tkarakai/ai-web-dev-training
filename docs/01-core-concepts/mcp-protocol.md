@@ -1,6 +1,6 @@
 # MCP Protocol Overview
 
-> Model Context Protocol—the standard interface for connecting AI models to tools and data sources.
+Model Context Protocol — the standard interface for connecting AI models to tools and data sources.
 
 ## TL;DR
 
@@ -50,9 +50,6 @@ This makes MCP the de facto standard for AI tool integration.
 MCP has four core building blocks:
 
 ```
-MCP Architecture
-────────────────
-
 ┌──────────────────────────────────────────────────────────────────┐
 │                          MCP SERVER                              │
 ├──────────────────────────────────────────────────────────────────┤
@@ -74,6 +71,7 @@ MCP Architecture
 └──────────────────────────────────────────────────────────────────┘
 ```
 
+> [!NOTE]
 > **MCP Server**: A process that exposes tools, resources, and prompts via the MCP protocol. Can be local (subprocess) or remote (HTTP service).
 
 **1. Servers**: Processes that provide capabilities
@@ -92,6 +90,7 @@ const server = {
 };
 ```
 
+> [!NOTE]
 > **MCP Tool**: An action the model can invoke, with a defined input schema. Tools can have side effects (create files, call APIs, modify databases).
 
 **2. Tools**: Actions the model can invoke
@@ -128,6 +127,7 @@ const tools = [
 ];
 ```
 
+> [!NOTE]
 > **MCP Resource**: A URI-addressable piece of data (files, API responses, database records). Read-only—resources don't have side effects.
 
 **3. Resources**: Data the model can access
@@ -150,6 +150,7 @@ const resources = [
 ];
 ```
 
+> [!NOTE]
 > **MCP Prompt**: A reusable prompt template with arguments. Useful for standardizing complex operations across tools.
 
 **4. Prompts**: Reusable prompt templates
@@ -203,8 +204,9 @@ const remoteServer = {
 
 Most AI coding tools now support MCP servers. Configure them to extend capabilities:
 
+Example: Claude Desktop configuration:
+
 ```json
-// Example: Claude Desktop configuration
 {
   "mcpServers": {
     "filesystem": {
@@ -454,3 +456,7 @@ Despite these issues, MCP remains valuable when used carefully:
 - [API Integration Patterns](../04-shipping-ai-features/api-integration.md) — Using MCP in production
 - [Security](../04-shipping-ai-features/security.md) — Prompt injection and tool abuse
 - [Tooling Ecosystem](../03-ai-assisted-development/tooling-ecosystem.md) — MCP for development
+
+## Previous
+
+- [Prompting and Interaction Patterns](./prompting.md)

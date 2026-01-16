@@ -1,6 +1,6 @@
 # Operational Guardrails
 
-> Practical day-to-day policies for safe AI usage in development.
+Practical day-to-day policies for safe AI usage in development.
 
 ## TL;DR
 
@@ -297,6 +297,14 @@ fi
 
 ## Related
 
-- [Orientation](./orientation.md) — AI failure modes and risk assessment
-- [Legal, IP, and Compliance](./legal-ip-compliance.md) — Regulatory requirements
-- [Security](../04-shipping-ai-features/security.md) — Prompt injection and tool abuse
+- [Orientation](../02-governance/orientation.md) — AI failure modes and risk assessment
+- [Legal, IP, and Compliance](../02-governance/legal-ip-compliance.md) — Regulatory requirements
+- [Security](./security.md) — Prompt injection and tool abuse
+
+## Previous
+
+- [Multi-Agent Systems and Orchestration](./multi-agent-orchestration.md)
+
+## Next
+
+- [Evals Basics](./evals-basics.md)

@@ -1,6 +1,6 @@
 # Repeatable Evals and CI/CD for AI Behavior
 
-> Automated testing pipelines for AI behavior, from offline evals to production canaries.
+Automated testing pipelines for AI behavior, from offline evals to production canaries.
 
 ## TL;DR
 
@@ -532,6 +532,13 @@ jobs:
 
 ## Related
 
-- [Evals Basics](../02-governance/evals-basics.md) — Foundational concepts
-- [Observability](./observability.md) — Production monitoring
+- [Evals Basics](./evals-basics.md) — Foundational concepts
 - [Deployment and Versioning](./deployment-versioning.md) — Release management
+
+## Previous
+
+- [Observability and Monitoring](./observability.md)
+
+## Next
+
+- [RAG Systems](./rag-systems.md)

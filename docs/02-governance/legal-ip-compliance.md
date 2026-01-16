@@ -1,6 +1,6 @@
 # Legal, IP, and Compliance Basics
 
-> Provider terms, copyright, attribution, and data requirements—what you need to know.
+Provider terms, copyright, attribution, and data requirements—what you need to know.
 
 ## TL;DR
 
@@ -52,17 +52,15 @@ The legal status of AI-generated content is unsettled and evolving.
 
 **Practical guidance:**
 
-```typescript
-// Lower risk: Use AI for patterns that are generic
-// - CRUD operations
-// - Standard data transformations
-// - Common algorithm implementations
+Lower risk: Use AI for patterns that are generic
+- CRUD operations
+- Standard data transformations
+- Common algorithm implementations
 
-// Higher risk: Be cautious with AI for
-// - Core differentiating IP
-// - Code where ownership matters (licensing to others)
-// - Exact reproductions of specific implementations
-```
+Higher risk: Be cautious with AI for
+- Core differentiating IP
+- Code where ownership matters (licensing to others)
+- Exact reproductions of specific implementations
 
 **Safe practices:**
 
@@ -125,14 +123,12 @@ If AI generates code that resembles specific open-source projects:
 
 **Red flags:**
 
-```typescript
-// If generated code includes:
-// - Specific variable names matching a library
-// - Unusual implementation choices matching a specific project
-// - Comments or documentation from other projects
+If generated code includes:
+- Specific variable names matching a library
+- Unusual implementation choices matching a specific project
+- Comments or documentation from other projects
 
-// Then: Review carefully, consider rewriting
-```
+Then: Review carefully, consider rewriting
 
 ### Data Residency and Compliance
 
@@ -178,46 +174,34 @@ Consult legal if your work involves export-controlled data or cross-border opera
 
 When facing an IP or compliance question:
 
-```
 1. Is this a novel situation?
-   Yes → Consult legal
-   No → Apply established policy
+   - Yes → Consult legal
+   - No → Apply established policy
 
 2. What's the potential impact?
-   High (public, customer-facing, licensed to others) → Extra scrutiny
-   Low (internal, prototype) → Standard practices
+   - High (public, customer-facing, licensed to others) → Extra scrutiny
+   - Low (internal, prototype) → Standard practices
 
 3. What data is involved?
-   Restricted/Confidential → Review compliance requirements
-   Internal/Public → Standard practices
+   - Restricted/Confidential → Review compliance requirements
+   - Internal/Public → Standard practices
 
 4. What jurisdiction matters?
-   International → Check all applicable regulations
-   Domestic → Check local regulations
-```
+   - International → Check all applicable regulations
+   - Domestic → Check local regulations
 
 ### Safe Defaults
 
 When policies aren't clear, default to conservative:
 
-```typescript
-// Safe default practices
-const safeDefaults = {
-  // Data handling
-  assumeLogging: true,              // Assume prompts are logged
-  assumeRetention: true,            // Assume some retention period
-  minimizeData: true,               // Only include necessary context
-
-  // IP handling
-  reviewAllOutput: true,            // Human review before shipping
-  avoidExactCopy: true,             // Don't request specific implementations
-  documentAssistance: true,         // Note AI involvement
-
-  // Compliance
-  checkClassification: true,        // Verify data classification before use
-  consultOnNovel: true,             // Ask legal when uncertain
-};
-```
+- Assume logging: Prompts may be logged.
+- Assume retention: There may be some retention period.
+- Minimize data: Only include necessary context.
+- Review all output: Human review before shipping.
+- Avoid exact copy: Don’t request specific implementations.
+- Document assistance: Note AI involvement.
+- Check classification: Verify data classification before use.
+- Consult on novel cases: Ask legal when uncertain.
 
 ### Documentation Template
 
@@ -259,6 +243,9 @@ For significant AI-assisted work:
 
 ## Related
 
-- [Operational Guardrails](./operational-guardrails.md) — Day-to-day data handling
-- [Bias, Harms, and Transparency](./bias-harms-transparency.md) — User-facing disclosure
+- [Operational Guardrails](../04-shipping-ai-features/guardrails.md) — Day-to-day data handling
 - [Moderation and Policy](../04-shipping-ai-features/moderation-policy.md) — Production compliance
+
+## Previous
+
+- [Bias, Harms, and Transparency](./bias-harms-transparency.md)

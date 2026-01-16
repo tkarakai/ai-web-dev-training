@@ -1,6 +1,6 @@
 # Bias, Harms, and Transparency
 
-> Recognizing problematic AI outputs and setting appropriate expectations with users.
+Recognizing problematic AI outputs and setting appropriate expectations with users.
 
 ## TL;DR
 
@@ -251,6 +251,14 @@ async function safeGenerate(prompt: string, options: SafetyOptions): Promise<Saf
 
 ## Related
 
-- [Operational Guardrails](./operational-guardrails.md) — Day-to-day safety practices
+- [Operational Guardrails](../04-shipping-ai-features/guardrails.md) — Day-to-day safety practices
 - [Moderation and Policy](../04-shipping-ai-features/moderation-policy.md) — Production content filtering
-- [Evals Basics](./evals-basics.md) — Testing AI behavior
+- [Evals Basics](../04-shipping-ai-features/evals-basics.md) — Testing AI behavior
+
+## Previous
+
+- [Orientation](./orientation.md)
+
+## Next
+
+- [Legal, IP, and Compliance](./legal-ip-compliance.md)

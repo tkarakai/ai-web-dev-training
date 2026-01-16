@@ -1,6 +1,6 @@
 # API Integration Patterns and Architecture
 
-> Building reliable, cost-effective AI integrations with proper error handling and caching.
+Building reliable, cost-effective AI integrations with proper error handling and caching.
 
 ## TL;DR
 
@@ -440,5 +440,12 @@ async function prioritizedCompletion(
 ## Related
 
 - [Multi-Agent Orchestration](./multi-agent-orchestration.md) — Complex agent patterns
-- [Output Control](./output-control.md) — Handling responses
 - [Model Routing](./model-routing.md) — Choosing models dynamically
+
+## Previous
+
+- [Output Control and Reliability](./output-control.md)
+
+## Next
+
+- [Native Thinking Models](./thinking-models.md)

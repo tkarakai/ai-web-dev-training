@@ -1,6 +1,6 @@
 # LLM Mechanics
 
-> Understanding how LLMs process text, generate outputs, and incur costs—the foundation for everything else.
+Understanding how LLMs process text, generate outputs, and incur costs—the foundation for everything else.
 
 ## TL;DR
 
@@ -14,6 +14,7 @@
 
 ### Tokens and Tokenization
 
+> [!NOTE]
 > **Token**: The smallest unit of text an LLM processes. Not characters, not words—tokens. Roughly 4 characters or ¾ of a word in English. `"hello"` = 1 token; `"anthropomorphic"` = 4 tokens.
 
 LLMs don't see text—they see tokens. The model breaks your input into tokens, processes them, and generates new tokens as output.
@@ -60,6 +61,7 @@ Use [OpenAI's tokenizer](https://platform.openai.com/tokenizer) or [tiktoken](ht
 
 ### Context Windows
 
+> [!NOTE]
 > **Context Window**: The maximum number of tokens an LLM can process in a single request. This includes your prompt *and* the model's response. Think of it as the model's "working memory."
 
 | Model | Context Window | Rough Equivalent |
@@ -92,6 +94,7 @@ If the total context exceeds the model's limit, content gets cut off—usually s
 
 ### The Relevance Principle
 
+> [!NOTE]
 > **Context Relevance**: The degree to which provided information directly helps answer the current question. High relevance produces accurate answers. Low relevance causes confusion, hallucination, or wasted tokens.
 
 ```
@@ -147,8 +150,10 @@ The focused approach is faster, cheaper, and produces better results.
 
 ### Sampling and Temperature
 
+> [!NOTE]
 > **Sampling**: The process of selecting the next token from a probability distribution. The model doesn't "know" what comes next—it predicts probabilities and picks one.
 
+> [!NOTE]
 > **Temperature**: A parameter (0-2) controlling randomness in token selection. Lower = more deterministic and focused. Higher = more random and creative.
 
 LLMs are probabilistic. Given a prompt, the model calculates probabilities for every possible next token and samples from that distribution.
@@ -184,8 +189,10 @@ const response = await openai.chat.completions.create({
 
 **Other sampling parameters:**
 
+> [!NOTE]
 > **top_p (nucleus sampling)**: Only consider tokens that together make up P% of probability mass. `top_p=0.9` means ignore the bottom 10% of unlikely tokens.
 
+> [!NOTE]
 > **top_k**: Only consider the K most likely next tokens. `top_k=50` ignores all but the 50 most probable options.
 
 - `top_p`: Consider only tokens comprising the top P% of probability mass
@@ -215,15 +222,59 @@ LLM API pricing follows a consistent pattern:
 Total cost = (input_tokens × input_price) + (output_tokens × output_price)
 ```
 
-Current pricing (January 2025, per 1M tokens):
+#### LLM pricing cheat sheet (checked Jan 15, 2026)
 
-| Model | Input | Output | Notes |
-|-------|-------|--------|-------|
-| GPT-4o | $2.50 | $10.00 | Good all-rounder |
-| GPT-4o mini | $0.15 | $0.60 | Best value for simpler tasks |
-| Claude 3.5 Sonnet | $3.00 | $15.00 | Strong for coding |
-| Claude 3.5 Haiku | $0.80 | $4.00 | Fast, cheap |
-| Gemini 2.5 Flash | $0.15 | $0.60 | Google's budget option |
+Prices are **USD per 1M tokens** unless otherwise noted.
+
+Some providers also offer **cached input**, **batch**, or **priority** tiers; this sheet lists the most common “standard” rates where applicable.
+
+**OpenAI (Standard tier)**
+
+| Model | Input ($/1M) | Output ($/1M) | Notes |
+|---|---:|---:|---|
+| gpt-5.2 | 1.75 | 14.00 | Flagship GPT-5 family |
+| gpt-5.1 | 1.25 | 10.00 | Slightly cheaper GPT-5 variant |
+| gpt-5-mini | 0.25 | 2.00 | Best value in GPT-5 family |
+| gpt-4o | 2.50 | 10.00 | Strong all‑rounder |
+| gpt-4o-mini | 0.15 | 0.60 | Great for simple / high‑volume tasks |
+| gpt-4.1 | 2.00 | 8.00 | Newer general model line |
+| o1 | 15.00 | 60.00 | Reasoning model (higher cost) |
+| o4-mini | 1.10 | 4.40 | Lower‑cost reasoning |
+
+
+**Anthropic (Claude Developer Platform)**
+
+| Model | Input ($/1M) | Output ($/1M) | Notes |
+|---|---:|---:|---|
+| Claude Opus 4.5 | 5.00 | 25.00 | Top-end Claude |
+| Claude Sonnet 4.5 | 3.00 | 15.00 | Strong coding + agents |
+| Claude Haiku 4.5 | 1.00 | 5.00 | Fast + cost-efficient |
+
+
+**Google (Gemini API)**
+
+| Model | Input ($/1M) | Output ($/1M) | Notes |
+|---|---:|---:|---|
+| Gemini 3 Pro Preview | 1.00 / 2.00 | 6.00 / 9.00 | Tiered by prompt size: **<=200k / >200k** tokens |
+| Gemini 3 Flash Preview | 0.50 | 3.00 | Fast, strong grounding/search focus |
+| Gemini 2.5 Flash | 0.30 | 2.50 | General “flash” tier |
+| Gemini 2.5 Flash-Lite | 0.10 | 0.40 | Cheapest text tier |
+
+
+**Popular open(-weights) models on OpenRouter**
+
+> [!TIP]
+> OpenRouter prices can vary by route/provider; rows below reflect the model listing prices shown on OpenRouter.
+
+| Model (OpenRouter) | Input ($/1M) | Output ($/1M) | Why it’s popular |
+|---|---:|---:|---|
+| Meta: Llama 3.1 8B Instruct | 0.02 | 0.05 | Ultra-cheap + fast baseline |
+| Meta: Llama 3.3 70B Instruct | 0.10 | 0.32 | Big open model, strong chat quality |
+| Qwen: Qwen3 32B | 0.08 | 0.24 | Great price/perf mid-size model |
+| Qwen: Qwen2.5 72B Instruct | 0.12 | 0.39 | Strong general 70B-class model |
+| DeepSeek: V3.2 Exp | 0.25 | 0.38 | Popular for reasoning/coding per $ |
+| DeepSeek: R1 | 0.70 | 2.40 | “Open reasoning” flagship (higher cost) |
+| Mistral: Mixtral 8x7B Instruct | 0.54 | 0.54 | Classic MoE instruct model |
 
 Cost optimization:
 - Output tokens cost 2-5x more than input—keep responses concise
@@ -277,6 +328,7 @@ This is a genuine trade-off, not a clear winner.
 | 13B params | 16GB | Llama 2 13B |
 | 70B params | 48GB+ | Llama 3.1 70B |
 
+> [!NOTE]
 > **Quantization**: Compressing model weights from 32-bit or 16-bit floats to lower precision (8-bit, 4-bit). Trades some quality for dramatically reduced memory and faster inference.
 
 **Quantization** reduces memory requirements by using lower precision:
@@ -286,10 +338,6 @@ This is a genuine trade-off, not a clear winner.
 **Key tools:**
 
 [Ollama](https://ollama.ai/) — Easiest setup, good API, covers most use cases
-```bash
-# Install and run a model
-ollama run llama3.1:8b
-```
 
 [llama.cpp](https://github.com/ggerganov/llama.cpp) — Maximum control, best performance, steeper learning curve
 
@@ -319,7 +367,10 @@ For llama.cpp, look for **GGUF** format models. [TheBloke](https://huggingface.c
 
 ## Related
 
-- [Prompting](./prompting.md) — How to write prompts that work
 - [Day-to-Day Workflows](../03-ai-assisted-development/day-to-day-workflows.md) — Managing context in AI-assisted development
 - [RAG Systems](../04-shipping-ai-features/rag-systems.md) — Context window management strategies for production
 - [Model Routing](../04-shipping-ai-features/model-routing.md) — Choosing models dynamically in production
+
+## Next:
+
+- [Prompting and Interaction Patterns](./prompting.md)

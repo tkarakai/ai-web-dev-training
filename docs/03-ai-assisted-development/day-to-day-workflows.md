@@ -1,6 +1,6 @@
 # Day-to-Day Workflows
 
-> Practical patterns for using AI in scaffolding, refactoring, debugging, and development.
+Practical patterns for using AI in scaffolding, refactoring, debugging, and development.
 
 ## TL;DR
 
@@ -217,6 +217,7 @@ Generate the migrated code and list any manual steps needed.
 
 ## Vibe Coding
 
+> [!NOTE]
 > **Vibe Coding**: A development approach where you describe what you want in natural language and let AI generate code with minimal specification. Emphasizes speed over precision—useful for prototyping, risky for production.
 
 "Vibe coding" means generating code quickly without detailed specs—useful for exploration but risky for production.
@@ -311,6 +312,7 @@ When you need production quality:
 
 ## Spec-Driven Development (SDD)
 
+> [!NOTE]
 > **Spec-Driven Development (SDD)**: An AI-assisted development approach where you write detailed specifications (acceptance criteria, constraints, APIs) *before* asking AI to generate code. Reduces "AI thrash" and improves output quality.
 
 SDD inverts the vibe coding approach: define acceptance criteria before generating code.
@@ -420,6 +422,7 @@ async function aiAssistedWorkflow(task: Task) {
 
 ## Managing Context in Long Sessions
 
+> [!NOTE]
 > **Context Drift**: The gradual loss of coherence in long conversations as earlier context gets pushed out of the model's effective attention window. The model "forgets" earlier decisions and constraints.
 
 Long AI-assisted coding sessions can degrade over time as the context window fills up. Watch for these signs:
@@ -545,7 +548,13 @@ Task: Implement nested routing with lazy loading.
 
 ## Related
 
-- [Testing and Quality](./testing-quality.md) — Verifying generated code
 - [Prompting](../01-core-concepts/prompting.md) — Writing effective prompts
-- [Tooling Ecosystem](./tooling-ecosystem.md) — Choosing the right tool
 - [LLM Mechanics](../01-core-concepts/llm-mechanics.md) — Context windows and token costs
+
+## Previous
+
+- [Tooling Ecosystem and Setup](./tooling-ecosystem.md)
+
+## Next
+
+- [Testing and Quality with AI](./testing-quality.md)

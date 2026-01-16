@@ -1,6 +1,6 @@
 # Retrieval-Augmented Generation (RAG) Systems
 
-> Building grounded AI systems that cite sources and admit when they don't know.
+Building grounded AI systems that cite sources and admit when they don't know.
 
 ## TL;DR
 
@@ -653,3 +653,11 @@ Documents will be provided in the next message.
 - [LLM Mechanics](../01-core-concepts/llm-mechanics.md) — Context windows and token costs
 - [API Integration](./api-integration.md) — Caching and performance
 - [Security](./security.md) — Indirect injection via retrieved content
+
+## Previous
+
+- [Evals and CI/CD for AI](./evals-cicd.md)
+
+## Next
+
+- [Fine-Tuning Strategy](./fine-tuning.md)

@@ -1,6 +1,6 @@
 # Orientation
 
-> What AI changes in software engineering—and the failure modes to watch for.
+What AI changes in software engineering—and the failure modes to watch for.
 
 ## TL;DR
 
@@ -36,9 +36,6 @@ This has implications:
 Understanding these failure modes is critical for safe AI usage:
 
 ```
-AI Failure Modes at a Glance
-────────────────────────────
-
 ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
 │  HALLUCINATION  │  │   CONFIDENT     │  │   TRAINING      │
 │                 │  │   WRONGNESS     │  │   STALENESS     │
@@ -66,11 +63,10 @@ AI Failure Modes at a Glance
     Repeat constraints   Defense in depth
 ```
 
-> **Hallucination**: When an LLM generates content that appears factual but is fabricated—fake APIs, non-existent functions, made-up facts. The model doesn't "know" it's wrong.
-
 **1. Hallucination**
 
-The model invents things that don't exist: fake APIs, non-existent libraries, plausible-sounding but wrong functions.
+> [!NOTE]
+> **Hallucination** is hen an LLM generates content that appears factual but is fabricated—fake APIs, non-existent functions, made-up facts. The model doesn't "know" it's wrong.
 
 ```typescript
 // Model might generate:
@@ -85,11 +81,10 @@ Detection:
 - Check that API calls match actual documentation
 - Test generated code—don't just read it
 
-> **Confident Wrongness**: The tendency of LLMs to present incorrect information with the same authoritative tone as correct information. There's no built-in uncertainty signal.
-
 **2. Confident wrongness**
 
-Models present incorrect information with the same tone as correct information. There's no "I'm not sure" signal.
+> [!NOTE]
+> **Confident Wrongness** is the tendency of LLMs to present incorrect information with the same authoritative tone as correct information. There's no built-in uncertainty signal.
 
 ```typescript
 // Model confidently states:
@@ -139,11 +134,11 @@ Defense:
 - Use conversation summaries and checkpoints (see [Day-to-Day Workflows](../03-ai-assisted-development/day-to-day-workflows.md))
 - Keep conversations focused; start fresh for new tasks
 
-> **Prompt Injection**: An attack where malicious input tricks an LLM into ignoring its original instructions and following attacker-provided instructions instead. Similar to SQL injection but for LLMs.
 
 **5. Prompt injection**
 
-When user input becomes part of prompts, malicious input can override your instructions.
+> [!NOTE]
+> **Prompt Injection** is an attack where malicious input tricks an LLM into ignoring its original instructions and following attacker-provided instructions instead. Similar to SQL injection but for LLMs.
 
 ```typescript
 // Your prompt:
@@ -255,6 +250,9 @@ After AI generates code:
 
 ## Related
 
-- [Bias, Harms, and Transparency](./bias-harms-transparency.md) — Recognizing problematic outputs
-- [Operational Guardrails](./operational-guardrails.md) — Practical day-to-day policies
+- [Operational Guardrails](../04-shipping-ai-features/guardrails.md) — Practical day-to-day policies
 - [Day-to-Day Workflows](../03-ai-assisted-development/day-to-day-workflows.md) — Managing context in long sessions
+
+## Next
+
+- [Bias, Harms, and Transparency](./bias-harms-transparency.md)

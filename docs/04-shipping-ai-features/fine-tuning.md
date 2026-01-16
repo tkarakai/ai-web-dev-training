@@ -1,6 +1,6 @@
 # Fine-Tuning and Customization Strategy
 
-> When to fine-tune, when to use alternatives, and how to manage the lifecycle.
+When to fine-tune, when to use alternatives, and how to manage the lifecycle.
 
 ## TL;DR
 
@@ -400,6 +400,12 @@ const openSourceFineTuneConfig = {
 
 ## Related
 
-- [RAG Systems](./rag-systems.md) — Alternative to fine-tuning for knowledge
 - [Evals and CI/CD](./evals-cicd.md) — Evaluating fine-tuned models
-- [Model Routing](./model-routing.md) — Using fine-tuned models in production
+
+## Previous
+
+- [RAG Systems](./rag-systems.md)
+
+## Next
+
+- [Model Routing and Cost Engineering](./model-routing.md)

@@ -10,7 +10,10 @@ This section covers building production AI features into your applications. It a
 | [Message Design and Application State](./message-design-state.md) | System/user message separation, memory, and persistence |
 | [Output Control and Reliability](./output-control.md) | Structured outputs, validators, streaming, and reproducibility |
 | [API Integration Patterns](./api-integration.md) | Agentic APIs, caching, idempotency, and MCP in production |
+| [Native Thinking Models](./thinking-models.md) | Reasoning models, extended thinking, and when to use them |
 | [Multi-Agent Systems and Orchestration](./multi-agent-orchestration.md) | When to use multiple agents, orchestration patterns, and governance |
+| [Operational Guardrails](./guardrails.md) | Data classification, secure handling, when to avoid AI, safe defaults |
+| [Evals Basics](./evals-basics.md) | Success criteria, eval sets, baselines, diffs, and human review gates |
 | [Moderation and Policy Enforcement](./moderation-policy.md) | Content filtering, rate limits, user reporting, and abuse prevention |
 | [Security](./security.md) | Prompt injection, tool abuse, defense-in-depth, and red-teaming |
 | [Observability and Monitoring](./observability.md) | Tracing, cost monitoring, quality metrics, and drift detection |

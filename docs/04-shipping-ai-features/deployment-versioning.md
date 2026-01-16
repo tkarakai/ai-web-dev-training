@@ -1,6 +1,6 @@
 # Deployment, Versioning, and Change Management
 
-> Treating AI artifacts as first-class release components.
+Treating AI artifacts as first-class release components.
 
 ## TL;DR
 
@@ -488,3 +488,11 @@ class FeatureFlags {
 - [Evals and CI/CD](./evals-cicd.md) — Testing before deployment
 - [Observability](./observability.md) — Monitoring after deployment
 - [API Integration](./api-integration.md) — Handling version compatibility
+
+## Previous
+
+- [Model Routing and Cost Engineering](./model-routing.md)
+
+## Next
+
+- [Voice Interfaces](./voice-interfaces.md)

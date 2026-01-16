@@ -1,6 +1,6 @@
 # Evals Basics
 
-> How to measure whether AI is doing what you want—before shipping.
+How to measure whether AI is doing what you want—before shipping.
 
 ## TL;DR
 
@@ -351,6 +351,14 @@ Like test-driven development, write evals before changing prompts:
 
 ## Related
 
-- [Evals and CI/CD](../04-shipping-ai-features/evals-cicd.md) — Production eval pipelines
-- [Observability](../04-shipping-ai-features/observability.md) — Monitoring live behavior
+- [Evals and CI/CD](./evals-cicd.md) — Production eval pipelines
+- [Observability](./observability.md) — Monitoring live behavior
 - [Prompting](../01-core-concepts/prompting.md) — Improving prompts based on eval results
+
+## Previous
+
+- [Operational Guardrails](./guardrails.md)
+
+## Next
+
+- [Moderation and Policy Enforcement](./moderation-policy.md)

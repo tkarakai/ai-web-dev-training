@@ -111,34 +111,6 @@ Jump directly to the topic you need using the links below. Each detailed guide h
 - Set expectations and disclosures appropriate to risk level
 - Decide when not to use AI for a given user workflow
 
-### [Operational Usage Guardrails](./02-governance/operational-guardrails.md)
-
-**Topics**
-- What can/can't go into prompts (data classification)
-- Secure handling of secrets and customer data
-- When to avoid AI (high-risk changes, unclear requirements, missing tests)
-- Guardrails for local models too (privacy ≠ correctness)
-- Rules for browsing-enabled tools (if permitted): source trust + citations
-
-**Enables you to**
-- Avoid accidental policy violations and data leaks
-- Know when AI increases risk more than it helps
-- Create team-level "safe defaults" for AI usage
-
-### [Evals Basics](./02-governance/evals-basics.md)
-
-**Topics**
-- Define success criteria: what "good" means for the task
-- Build small eval sets (golden cases, edge cases, regressions)
-- Baselines and diffs: compare prompts/models/configs over time
-- Human review gates and when to require them
-
-**Enables you to**
-- Create a minimal eval harness that catches obvious regressions
-- Compare changes objectively before shipping or adopting new prompts
-- Decide when human review is required vs optional
-
-**See also:** For production-grade eval pipelines and CI/CD integration, see [Repeatable Evals and CI/CD for AI Behavior](./04-shipping-ai-features/evals-cicd.md) in Shipping AI Features.
 
 ### [Legal, IP, and Compliance Basics](./02-governance/legal-ip-compliance.md)
 
@@ -334,6 +306,24 @@ Jump directly to the topic you need using the links below. Each detailed guide h
 - Integrate tools without turning the model into a privileged backdoor
 - Use MCP where it improves maintainability and interoperability
 
+### [Native Thinking Models](./04-shipping-ai-features/thinking-models.md)
+
+**Topics**
+- Native thinking models (o1, Claude with extended thinking) and how they internalize reasoning
+- Open source thinking models (DeepSeek-R1, GPT-OSS, Kimi-Dev-72B)
+- When to use thinking models vs regular models: complex reasoning vs simple queries
+- Extended thinking and budget token control
+- Combining thinking models with other patterns (ReAct, validation, planning/execution split)
+- Cost and latency management for thinking models
+- Production considerations: observability, A/B testing, reliability
+
+**Enables you to**
+- Decide when thinking models are worth the cost and latency
+- Use extended thinking effectively for complex problems
+- Combine thinking models with regular models for optimal cost/quality
+- Evaluate open source vs proprietary thinking models for your use case
+- Build production systems with thinking models safely
+
 ### [Multi-Agent Systems and Orchestration](./04-shipping-ai-features/multi-agent-orchestration.md)
 
 **Topics**
@@ -360,6 +350,35 @@ Jump directly to the topic you need using the links below. Each detailed guide h
 - Design orchestration patterns appropriate to the task
 - Maintain observability and control across agent boundaries
 - Prevent cascading failures and runaway costs
+
+### [Operational Guardrails](./04-shipping-ai-features/guardrails.md)
+
+**Topics**
+- What can/can't go into prompts (data classification)
+- Secure handling of secrets and customer data
+- When to avoid AI (high-risk changes, unclear requirements, missing tests)
+- Guardrails for local models too (privacy ≠ correctness)
+- Rules for browsing-enabled tools (if permitted): source trust + citations
+
+**Enables you to**
+- Avoid accidental policy violations and data leaks
+- Know when AI increases risk more than it helps
+- Create team-level "safe defaults" for AI usage
+
+### [Evals Basics](./04-shipping-ai-features/evals-basics.md)
+
+**Topics**
+- Define success criteria: what "good" means for the task
+- Build small eval sets (golden cases, edge cases, regressions)
+- Baselines and diffs: compare prompts/models/configs over time
+- Human review gates and when to require them
+
+**Enables you to**
+- Create a minimal eval harness that catches obvious regressions
+- Compare changes objectively before shipping or adopting new prompts
+- Decide when human review is required vs optional
+
+**See also:** For production-grade eval pipelines and CI/CD integration, see [Repeatable Evals and CI/CD for AI Behavior](./04-shipping-ai-features/evals-cicd.md) below.
 
 ### [Moderation, Rate Limits, User Reporting, and Policy Enforcement](./04-shipping-ai-features/moderation-policy.md)
 

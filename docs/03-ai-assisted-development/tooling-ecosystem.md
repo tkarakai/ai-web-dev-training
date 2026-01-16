@@ -1,6 +1,6 @@
 # Tooling Ecosystem and Setup
 
-> Choosing and configuring AI tools for development—from IDE copilots to local models.
+Choosing and configuring AI tools for development—from IDE copilots to local models.
 
 ## TL;DR
 
@@ -37,8 +37,10 @@ Best for:           Best for:           Best for:
 • Known patterns    • Multi-file work   • Repo-wide changes
 ```
 
+> [!NOTE]
 > **IDE Agent**: An AI assistant integrated into your development environment that understands project structure, can access multiple files, and collaborates through chat and direct code edits.
 
+> [!NOTE]
 > **CLI Agent**: An AI assistant running in your terminal with access to shell commands, file system, and git. Designed for autonomous task completion with minimal intervention.
 
 **1. Inline Autocomplete (Copilots)**
@@ -95,8 +97,6 @@ Examples:
 ### The Speed Trap
 
 Studies show perceived productivity gains don't always translate to actual time savings:
-
-> "Developers who felt about 20% faster with AI assistants sometimes actually took 19% longer to finish tasks once debugging and cleanup were included."
 
 **Why this happens:**
 - Accepting code without understanding
@@ -315,6 +315,9 @@ MCP servers have elevated privileges. Follow these practices:
 
 ## Related
 
-- [Day-to-Day Workflows](./day-to-day-workflows.md) — Using tools effectively
 - [MCP Protocol Overview](../01-core-concepts/mcp-protocol.md) — How MCP works
 - [LLM Mechanics](../01-core-concepts/llm-mechanics.md) — Understanding local model tradeoffs
+
+## Next
+
+- [Day-to-Day Workflows](./day-to-day-workflows.md)

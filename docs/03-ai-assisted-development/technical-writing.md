@@ -1,6 +1,6 @@
 # AI-Assisted Technical Writing
 
-> Using AI to produce RFCs, ADRs, API docs, runbooks, and release notes—faster and clearer.
+Using AI to produce RFCs, ADRs, API docs, runbooks, and release notes—faster and clearer.
 
 ## TL;DR
 
@@ -470,6 +470,12 @@ This format makes it easy for AI tools to extract:
 
 ## Related
 
-- [Day-to-Day Workflows](./day-to-day-workflows.md) — Spec-driven development
-- [Code Review and Governance](./code-review-governance.md) — Documentation standards
 - [LLM Mechanics](../01-core-concepts/llm-mechanics.md) — How models process text
+
+## Previous
+
+- [Testing and Quality with AI](./testing-quality.md)
+
+## Next
+
+- [Code Review and Governance Practices](./code-review-governance.md)

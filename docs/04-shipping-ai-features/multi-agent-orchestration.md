@@ -1,6 +1,6 @@
 # Multi-Agent Systems and Orchestration
 
-> When to use multiple agents, orchestration patterns, and managing complexity.
+When to use multiple agents, orchestration patterns, and managing complexity.
 
 ## TL;DR
 
@@ -496,3 +496,11 @@ class AgentAuditor {
 - [API Integration Patterns](./api-integration.md) — Individual agent implementation
 - [Security](./security.md) — Multi-agent security considerations
 - [Observability](./observability.md) — Monitoring agent systems
+
+## Previous
+
+- [Native Thinking Models](./thinking-models.md)
+
+## Next
+
+- [Operational Guardrails](./guardrails.md)

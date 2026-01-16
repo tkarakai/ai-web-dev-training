@@ -1,6 +1,6 @@
 # Message Design and Application State
 
-> Structuring prompts, managing memory, and preventing state-based attacks in production.
+Structuring prompts, managing memory, and preventing state-based attacks in production.
 
 ## TL;DR
 
@@ -430,5 +430,12 @@ Continue from where we left off.`,
 ## Related
 
 - [Security](./security.md) — Prompt injection defenses
-- [Product Patterns and UX](./product-patterns-ux.md) — User-facing state display
 - [LLM Mechanics](../01-core-concepts/llm-mechanics.md) — Context windows and token management
+
+## Previous
+
+- [Product Patterns and UX](./product-patterns-ux.md)
+
+## Next
+
+- [Output Control and Reliability](./output-control.md)

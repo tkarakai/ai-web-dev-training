@@ -1,6 +1,6 @@
 # Security: Prompt Injection, Tool Abuse, and Exfiltration
 
-> Threat modeling AI systems and building layered defenses.
+Threat modeling AI systems and building layered defenses.
 
 ## TL;DR
 
@@ -694,6 +694,13 @@ async function auditAIRequest(
 
 ## Related
 
-- [Moderation and Policy](./moderation-policy.md) — Content filtering
 - [MCP Protocol](../01-core-concepts/mcp-protocol.md) — Tool security
-- [Operational Guardrails](../02-governance/operational-guardrails.md) — Data handling policies
+- [Operational Guardrails](./guardrails.md) — Data handling policies
+
+## Previous
+
+- [Moderation and Policy Enforcement](./moderation-policy.md)
+
+## Next
+
+- [Observability and Monitoring](./observability.md)

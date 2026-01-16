@@ -1,6 +1,6 @@
 # Moderation, Rate Limits, and Policy Enforcement
 
-> Preventing abuse, enforcing policies, and building user reporting workflows.
+Preventing abuse, enforcing policies, and building user reporting workflows.
 
 ## TL;DR
 
@@ -430,6 +430,13 @@ async function storeForAppeal(
 
 ## Related
 
-- [Security](./security.md) — Prompt injection defenses
 - [Product Patterns and UX](./product-patterns-ux.md) — User-facing error handling
 - [Observability](./observability.md) — Monitoring moderation effectiveness
+
+## Previous
+
+- [Evals Basics](./evals-basics.md)
+
+## Next
+
+- [Security](./security.md)

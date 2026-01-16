@@ -1,6 +1,6 @@
 # Voice Interfaces (STT/TTS + Voice-specific Challenges)
 
-> Building voice-based AI features with appropriate latency, accuracy, and UX.
+Building voice-based AI features with appropriate latency, accuracy, and UX.
 
 ## TL;DR
 
@@ -416,3 +416,7 @@ const errorHandlers: VoiceErrorHandling = {
 - [Product Patterns and UX](./product-patterns-ux.md) — Voice UX basics
 - [API Integration](./api-integration.md) — Streaming patterns
 - [Latency engineering](./model-routing.md) — Optimizing response time
+
+## Previous
+
+- [Deployment and Versioning](./deployment-versioning.md)

@@ -1,6 +1,6 @@
 # Model Routing and Cost/Latency Engineering
 
-> Choosing models dynamically, optimizing costs, and building robust fallbacks.
+Choosing models dynamically, optimizing costs, and building robust fallbacks.
 
 ## TL;DR
 
@@ -402,4 +402,11 @@ async function estimateComplexity(request: Request): Promise<number> {
 
 - [API Integration Patterns](./api-integration.md) — Request handling
 - [Observability](./observability.md) — Cost monitoring
-- [Fine-Tuning](./fine-tuning.md) — Custom models for routing
+
+## Previous
+
+- [Fine-Tuning Strategy](./fine-tuning.md)
+
+## Next
+
+- [Deployment and Versioning](./deployment-versioning.md)
