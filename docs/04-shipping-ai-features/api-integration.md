@@ -14,7 +14,63 @@ Building reliable, cost-effective AI integrations with proper error handling and
 
 ### API Types and When to Use Them
 
-**Chat/Completion APIs**: Request → Response
+#### Provider SDK Versions: What They Mean
+
+The AI ecosystem has multiple versioning schemes that can be confusing. Here's what they mean:
+
+**OpenAI API interface “generations:**
+- Legacy Completions (`/v1/completions`): prompt → text (marked Legacy)  ￼
+- Chat Completions (`/v1/chat/completions`): messages format; prior default for text generation  ￼
+- Responses (`/v1/responses`): current recommended generation endpoint (migration path from Chat Completions) 
+
+The Vercel AI SDK “spec versions” describe the SDK’s provider abstraction layer, which can call OpenAI endpoints (e.g., Chat Completions or Responses) underneath.
+
+**Vercel AI SDK Language Model Specification versions:**
+- **V1** (Legacy): baseline provider contract; simpler text + streaming expectations
+- **V2**: (AI **SDK 5**) “V2 Specifications”: standardized tool calling + streaming parts across providers
+- **V3**: (AI **SDK 6**) “v3 Language Model Specification”: expanded model capabilities + more structured/consistent streaming + provider parity improvements
+
+**Provider Packages:**
+- **@ai-sdk/openai** (v3.x): For official OpenAI APIs (GPT-4o, o1, etc.)
+- **@ai-sdk/openai-compatible** (v2.x): For OpenAI-compatible servers (llama.cpp, vLLM, Ollama, etc.)
+- **@ai-sdk/anthropic**, **@ai-sdk/google**, etc.: Provider-specific packages
+
+#### When to Use Each Provider Package
+
+**Use `@ai-sdk/openai` for:**
+```typescript
+import { createOpenAI } from '@ai-sdk/openai';
+
+// Official OpenAI APIs
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+const model = openai('gpt-4o');
+```
+
+**Use `@ai-sdk/openai-compatible` for:**
+```typescript
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+
+// llama.cpp, vLLM, Ollama, or other OpenAI-compatible servers
+const llama = createOpenAICompatible({
+  name: 'llama.cpp',
+  baseURL: 'http://127.0.0.1:8033/v1',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+const model = llama.chatModel('gpt-oss-20b');
+```
+
+**Why the distinction matters:**
+- `@ai-sdk/openai` includes OpenAI-specific defaults and features (e.g., response_format, seed)
+- `@ai-sdk/openai-compatible` is more generic and won't assume features the server might not support
+- Using the wrong package can cause errors like `Unsupported model version v1`
+
+#### Chat/Completion APIs: Request → Response
 
 ```typescript
 // Best for: Single-turn queries, stateless operations

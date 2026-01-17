@@ -1,0 +1,32 @@
+{
+  "name": "ai-web-dev-examples",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-quality practice examples for AI web development training",
+  "workspaces": [
+    "shared",
+    "01-core-concepts/*",
+    "02-shipping-ai-features/*"
+  ],
+  "scripts": {
+    "dev": "bun run --filter",
+    "build": "bun run build --filter '*'",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "test:all": "bun scripts/test-all.ts",
+    "create": "bun scripts/create-example.ts",
+    "clean": "rm -rf node_modules **/node_modules **/.next **/dist",
+    "typecheck": "bun run --filter '*' typecheck"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.6",
+    "@types/react-dom": "^19.0.3",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  }
+}
