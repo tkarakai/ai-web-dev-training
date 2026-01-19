@@ -1,6 +1,6 @@
 # AI-Assisted Technical Writing
 
-> Using AI to produce RFCs, ADRs, API docs, runbooks, and release notes—faster and clearer.
+Using AI to produce RFCs, ADRs, API docs, runbooks, and release notes—faster and clearer.
 
 ## TL;DR
 
@@ -402,6 +402,65 @@ For each issue, quote the problematic text and suggest a fix.
 `;
 ```
 
+### Writing Documentation for AI Tools
+
+When AI tools need to understand your codebase, well-structured documentation helps significantly. Write documentation that's easy for AI to parse and reference.
+
+**Key principles:**
+- **Explicit parameter tables** instead of prose descriptions
+- **Concrete examples** with realistic values
+- **Error conditions** listed explicitly
+- **"Do NOT" sections** for common mistakes
+- **Stable headings** for retrieval
+
+**Example: Function documentation**
+
+```markdown
+# createUser(data: UserInput): Promise<User>
+
+Creates a new user account.
+
+## Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| data.email | string | Yes | Valid email address |
+| data.password | string | Yes | Min 8 characters |
+| data.name | string | No | Display name |
+
+## Returns
+
+A `User` object with `id`, `email`, `name`, `createdAt`.
+
+## Errors
+
+- `ValidationError`: Invalid email or password too short
+- `ConflictError`: Email already registered
+
+## Example
+
+\`\`\`typescript
+const user = await createUser({
+  email: 'test@example.com',
+  password: 'securepassword123',
+  name: 'Test User',
+});
+// Returns: { id: '123', email: 'test@example.com', ... }
+\`\`\`
+
+## Do NOT
+
+- Call without email validation
+- Store plain text passwords (handled internally)
+- Call in loops without rate limiting
+```
+
+This format makes it easy for AI tools to extract:
+- Function signatures and parameters
+- Expected behavior and return values
+- Error conditions
+- Usage patterns
+
 ## Common Pitfalls
 
 - **AI confabulates details.** Verify all technical claims, commands, and examples.
@@ -411,6 +470,12 @@ For each issue, quote the problematic text and suggest a fix.
 
 ## Related
 
-- [Day-to-Day Workflows](./day-to-day-workflows.md) — Spec-driven development
-- [Context Management](../01-core-concepts/context-management.md) — LLM-friendly documentation
-- [Code Review and Governance](./code-review-governance.md) — Documentation standards
+- [LLM Mechanics](../01-core-concepts/llm-mechanics.md) — How models process text
+
+## Previous
+
+- [Testing and Quality with AI](./testing-quality.md)
+
+## Next
+
+- [Code Review and Governance Practices](./code-review-governance.md)

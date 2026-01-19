@@ -1,6 +1,6 @@
 # Output Control and Reliability
 
-> Making AI outputs parseable, predictable, and safe for production consumption.
+Making AI outputs parseable, predictable, and safe for production consumption.
 
 ## TL;DR
 
@@ -406,6 +406,13 @@ function sanitizeForExecution(content: string): { safe: boolean; code?: string }
 
 ## Related
 
-- [API Integration Patterns](./api-integration.md) — Request/response handling
 - [Prompting](../01-core-concepts/prompting.md) — Getting structured outputs
 - [Testing and Quality](../03-ai-assisted-development/testing-quality.md) — Testing strategies
+
+## Previous
+
+- [Message Design and Application State](./message-design-state.md)
+
+## Next
+
+- [API Integration Patterns](./api-integration.md)

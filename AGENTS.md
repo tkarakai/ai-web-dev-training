@@ -6,11 +6,11 @@ This repository is a practical guide for using AI in web development. It targets
 
 ```
 docs/
-├── README.md                      # Main TOC and navigation (AI Web Dev_v0.1.md will become this)
+├── README.md                      # Main TOC and navigation
 ├── 01-core-concepts/              # How LLMs work, prompting, context, protocols
 ├── 02-governance/                 # Policies, risks, ethics, compliance
 ├── 03-ai-assisted-development/    # Using AI to build software faster
-└── 04-shipping-ai-features/       # Building AI-powered product features
+└── 04-shipping-ai-features/       # Building AI-powered product features (includes evals, guardrails, thinking models)
 ```
 
 ## Audience
@@ -120,6 +120,8 @@ Each topic file should follow this structure:
 
 ## Common Pitfalls
 
+[This section is the mirror image of the  TL;DR section, except the negative side of the same, as a reminder at the end of the document]
+
 - **Pitfall name.** Why it happens and what to do instead.
 - **Another pitfall.** Brief explanation.
 
@@ -127,6 +129,18 @@ Each topic file should follow this structure:
 
 - [Other Topic](../section/other-topic.md) — one line on how it connects
 - [External Resource](https://...) — only if genuinely useful, not filler
+
+## Previous
+
+[This section is only there if there is a previous document in the order defined in the README.md of the current folder]
+
+- [Previous Topic](../section/prev-topic.md)
+
+## Next
+
+[This section is only there if there is a next document in the order defined in the README.md of the current folder]
+
+- [Next Topic](../section/next-topic.md)
 ```
 
 ### Template Rules
@@ -138,7 +152,7 @@ Each topic file should follow this structure:
 | TL;DR | 3-5 bullets, actionable, skimmable in 30 seconds |
 | Core Concepts | 300-1000 words depending on topic complexity |
 | In Practice | At least one code example or concrete scenario |
-| Common Pitfalls | 2-4 items, brief, specific |
+| Common Pitfalls | 3-5 items, brief, specific, opposite of TL;DR items |
 | Related | 2-5 links max, internal preferred over external |
 
 ### File Length
@@ -220,6 +234,94 @@ Include links to:
 
 Keep links current. Prefer permalinks or versioned docs when available.
 
+## Enhancing Document Understanding
+
+Use these techniques to make concepts scannable and clear:
+
+### Definition Blocks
+
+Use blockquote format for key term definitions at first introduction:
+
+```markdown
+> [!NOTE]
+> **Term Name**: Concise definition (1-2 sentences). Focus on what it is and why it matters.
+```
+
+Example:
+```markdown
+> [!NOTE]
+> **RAG (Retrieval-Augmented Generation)**: Architecture where an LLM's response is grounded in retrieved documents rather than relying solely on training data. Reduces hallucination and enables citing sources.
+```
+
+### ASCII Diagrams
+
+Use ASCII diagrams to visualize:
+- Process flows (sequential steps, pipelines)
+- Architecture patterns (components and relationships)
+- Decision trees (when to use X vs Y)
+- Comparisons (side-by-side alternatives)
+
+Guidelines:
+- Keep diagrams simple—clarity over detail
+- Use box drawing characters: `┌ ─ ┐ │ └ ┘ ├ ┤ ┬ ┴ ┼`
+- Align elements for readability
+- Add labels and arrows to show flow
+- Include brief explanations below diagram
+
+Example:
+```markdown
+```
+Process Flow
+────────────
+
+   Input
+     │
+     ▼
+┌─────────┐
+│ Validate│
+└────┬────┘
+     │
+     ▼
+┌─────────┐
+│ Process │
+└────┬────┘
+     │
+     ▼
+   Output
+```
+```
+
+### Use Case Clarity
+
+When a section applies to specific use cases, clarify upfront:
+
+**Two main use cases:**
+- **AI-assisted development**: Using AI tools to write code (IDE copilots, CLI agents)
+- **AI-infused features**: Building AI capabilities into your product (chatbots, RAG systems)
+
+Mark sections clearly:
+```markdown
+### Managing Context (AI-Assisted Development)
+
+When using IDE copilots and CLI agents...
+
+### Managing Context (Building AI Features)
+
+When implementing RAG systems or chatbots...
+```
+
+Or use a callout:
+```markdown
+> **Use case:** This section applies to building AI-powered features, not day-to-day coding with AI assistants.
+```
+
+### Avoid Redundancy
+
+Before writing "Common Pitfalls":
+1. Check if pitfalls are already covered in main content
+2. If yes, remove the section or consolidate
+3. Only keep pitfalls that add new, actionable warnings
+
 ## Do Not
 
 - Include time estimates ("this takes 2 weeks to learn")
@@ -227,3 +329,5 @@ Keep links current. Prefer permalinks or versioned docs when available.
 - Use emojis in documentation
 - Link to paywalled content without noting it
 - Recommend abandoned projects (check last commit date)
+- Add history of things, unless it is important for clarity
+- Add marketing or news related content

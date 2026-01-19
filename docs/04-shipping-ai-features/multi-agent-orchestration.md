@@ -1,6 +1,6 @@
 # Multi-Agent Systems and Orchestration
 
-> When to use multiple agents, orchestration patterns, and managing complexity.
+When to use multiple agents, orchestration patterns, and managing complexity.
 
 ## TL;DR
 
@@ -33,6 +33,48 @@ Single agent is simpler. Use it when possible.
 - Tasks can be parallelized for speed
 
 ### Orchestration Patterns
+
+```
+Multi-Agent Orchestration Patterns
+──────────────────────────────────
+
+SEQUENTIAL (Pipeline)           PARALLEL (Fan-out/Fan-in)
+─────────────────────           ─────────────────────────
+
+┌─────────┐                           ┌─────────┐
+│ Agent A │                      ┌───►│ Agent A │───┐
+└────┬────┘                      │    └─────────┘   │
+     │                           │                   │
+     ▼                     ┌─────┴─────┐       ┌────▼────┐
+┌─────────┐                │  Dispatch │       │ Combine │
+│ Agent B │                └─────┬─────┘       └────┬────┘
+└────┬────┘                      │    ┌─────────┐   │
+     │                           └───►│ Agent B │───┘
+     ▼                                └─────────┘
+┌─────────┐
+│ Agent C │
+└─────────┘
+
+
+HIERARCHICAL (Orchestrator)     MAKER-CHECKER
+───────────────────────────     ──────────────
+
+    ┌──────────────┐            ┌─────────┐
+    │ Orchestrator │            │  Maker  │
+    └──────┬───────┘            └────┬────┘
+           │                         │
+    ┌──────┼──────┐                  ▼
+    │      │      │            ┌─────────┐
+    ▼      ▼      ▼            │ Checker │
+┌─────┐ ┌─────┐ ┌─────┐        └────┬────┘
+│  A  │ │  B  │ │  C  │             │
+└─────┘ └─────┘ └─────┘             ▼ ← Iterate if rejected
+                               ┌─────────┐
+                               │  Maker  │
+                               └─────────┘
+```
+
+> **Orchestrator**: An agent that coordinates other agents, deciding which to invoke and how to combine their outputs. Sometimes called a "router" or "dispatcher" agent.
 
 **1. Sequential (Pipeline)**
 
@@ -454,3 +496,11 @@ class AgentAuditor {
 - [API Integration Patterns](./api-integration.md) — Individual agent implementation
 - [Security](./security.md) — Multi-agent security considerations
 - [Observability](./observability.md) — Monitoring agent systems
+
+## Previous
+
+- [Native Thinking Models](./thinking-models.md)
+
+## Next
+
+- [Operational Guardrails](./guardrails.md)

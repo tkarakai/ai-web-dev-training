@@ -1,6 +1,6 @@
 # LLM Mechanics
 
-> Understanding how LLMs process text, generate outputs, and incur costs—the foundation for everything else.
+Understanding how LLMs process text, generate outputs, and incur costs—the foundation for everything else.
 
 ## TL;DR
 
@@ -14,7 +14,31 @@
 
 ### Tokens and Tokenization
 
-LLMs don't see text—they see tokens. A token is roughly 4 characters or ¾ of a word in English. The model breaks your input into tokens, processes them, and generates new tokens as output.
+> [!NOTE]
+> **Token**: The smallest unit of text an LLM processes. Not characters, not words—tokens. Roughly 4 characters or ¾ of a word in English. `"hello"` = 1 token; `"anthropomorphic"` = 4 tokens.
+
+LLMs don't see text—they see tokens. The model breaks your input into tokens, processes them, and generates new tokens as output.
+v
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    LLM Request/Response Flow                    │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   Your Text           Tokenizer            Model                │
+│   ──────────         ───────────          ────────              │
+│                                                                 │
+│   "Hello, world!"  →  [15496, 11,   →    [Neural    →  [2159]   │
+│                        1917, 0]           Network]              │
+│                                                                 │
+│        │                  │                  │            │     │
+│        │                  │                  │            ▼     │
+│        │                  │                  │       Detokenize │
+│        │                  │                  │            │     │
+│        ▼                  ▼                  ▼            ▼     │
+│   Input Text         Token IDs          Prediction    "Hi!"     │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ```typescript
 // Rough token estimation (actual tokenization varies by model)
@@ -37,7 +61,8 @@ Use [OpenAI's tokenizer](https://platform.openai.com/tokenizer) or [tiktoken](ht
 
 ### Context Windows
 
-The context window is everything the model can see at once: your system prompt, conversation history, any documents you've included, and the response it's generating.
+> [!NOTE]
+> **Context Window**: The maximum number of tokens an LLM can process in a single request. This includes your prompt *and* the model's response. Think of it as the model's "working memory."
 
 | Model | Context Window | Rough Equivalent |
 |-------|---------------|------------------|
@@ -50,9 +75,103 @@ Practical implications:
 - Models perform better on content near the beginning and end of context ("lost in the middle" problem)
 - Context windows have expanded dramatically—use this for RAG, long documents, and multi-file code analysis
 
+### What Goes in Context
+
+Everything the model sees forms its context. The context window contains:
+- **System prompt**: Your instructions and constraints
+- **Conversation history**: Previous messages in the thread
+- **Retrieved documents**: RAG results, file contents
+- **User message**: Current request
+- **Model response**: The output being generated
+
+All of this counts toward your token limit and affects:
+- **Accuracy**: More relevant context leads to better answers
+- **Cost**: More tokens means higher bills
+- **Latency**: More tokens means slower responses
+- **Focus**: Irrelevant context leads to confused outputs
+
+If the total context exceeds the model's limit, content gets cut off—usually silently, often from the middle.
+
+### The Relevance Principle
+
+> [!NOTE]
+> **Context Relevance**: The degree to which provided information directly helps answer the current question. High relevance produces accurate answers. Low relevance causes confusion, hallucination, or wasted tokens.
+
+```
+  ┌─────────────────┐     ┌─────────────────┐
+  │ HIGH RELEVANCE  │     │  LOW RELEVANCE  │
+  │                 │     │                 │
+  │ • Login code    │     │ • Entire repo   │
+  │ • Auth types    │     │ • Unrelated     │
+  │ • Error logs    │     │   modules       │
+  │                 │     │ • Generic docs  │
+  └────────┬────────┘     └────────┬────────┘
+           │                       │
+           ▼                       ▼
+      ┌─────────┐            ┌───────────┐
+      │  GOOD   │            │   POOR    │
+      │ Focused │            │ Confused  │
+      │ Correct │            │ Verbose   │
+      └─────────┘            └───────────┘
+```
+
+**Include information that's:**
+- Directly relevant to the current task
+- Not inferrable from common knowledge
+- Necessary for correct behavior
+
+**Exclude:**
+- Information the model already knows
+- Tangentially related content
+- Duplicate or redundant information
+
+**Example comparison:**
+
+Bad approach - dumping everything:
+```
+Here's our entire codebase documentation...
+[50 pages of docs]
+
+Now answer this question about the login function.
+```
+
+Good approach - focused context:
+```
+Here's the login function and its tests:
+[actual login function code]
+
+Related types:
+[relevant type definitions]
+
+Question: Why does login fail when the session token is expired?
+```
+
+The focused approach is faster, cheaper, and produces better results.
+
 ### Sampling and Temperature
 
+> [!NOTE]
+> **Sampling**: The process of selecting the next token from a probability distribution. The model doesn't "know" what comes next—it predicts probabilities and picks one.
+
+> [!NOTE]
+> **Temperature**: A parameter (0-2) controlling randomness in token selection. Lower = more deterministic and focused. Higher = more random and creative.
+
 LLMs are probabilistic. Given a prompt, the model calculates probabilities for every possible next token and samples from that distribution.
+
+```
+Temperature Effect on Token Selection
+─────────────────────────────────────
+
+Prompt: "The capital of France is"
+
+Next token probabilities:     temp=0         temp=0.7        temp=1.5
+                              ───────        ────────        ────────
+  "Paris"     → 85%           ✓ Always       ✓ Usually       ✓ Often
+  "the"       → 8%            ✗ Never        ✗ Rarely        ? Sometimes
+  "a"         → 4%            ✗ Never        ✗ Rarely        ? Sometimes
+  "located"   → 2%            ✗ Never        ✗ Very rare     ? Occasionally
+  "unknown"   → 1%            ✗ Never        ✗ Very rare     ? Occasionally
+```
 
 **Temperature** controls randomness:
 - `temperature: 0` — Always pick the most likely token (deterministic-ish)
@@ -69,7 +188,14 @@ const response = await openai.chat.completions.create({
 ```
 
 **Other sampling parameters:**
-- `top_p` (nucleus sampling): Consider only tokens comprising the top P% of probability mass
+
+> [!NOTE]
+> **top_p (nucleus sampling)**: Only consider tokens that together make up P% of probability mass. `top_p=0.9` means ignore the bottom 10% of unlikely tokens.
+
+> [!NOTE]
+> **top_k**: Only consider the K most likely next tokens. `top_k=50` ignores all but the 50 most probable options.
+
+- `top_p`: Consider only tokens comprising the top P% of probability mass
 - `top_k`: Consider only the K most likely tokens
 - `seed`: Some APIs support seeds for reproducibility (but it's not guaranteed)
 
@@ -96,15 +222,59 @@ LLM API pricing follows a consistent pattern:
 Total cost = (input_tokens × input_price) + (output_tokens × output_price)
 ```
 
-Current pricing (January 2025, per 1M tokens):
+#### LLM pricing cheat sheet (checked Jan 15, 2026)
 
-| Model | Input | Output | Notes |
-|-------|-------|--------|-------|
-| GPT-4o | $2.50 | $10.00 | Good all-rounder |
-| GPT-4o mini | $0.15 | $0.60 | Best value for simpler tasks |
-| Claude 3.5 Sonnet | $3.00 | $15.00 | Strong for coding |
-| Claude 3.5 Haiku | $0.80 | $4.00 | Fast, cheap |
-| Gemini 2.5 Flash | $0.15 | $0.60 | Google's budget option |
+Prices are **USD per 1M tokens** unless otherwise noted.
+
+Some providers also offer **cached input**, **batch**, or **priority** tiers; this sheet lists the most common “standard” rates where applicable.
+
+**OpenAI (Standard tier)**
+
+| Model | Input ($/1M) | Output ($/1M) | Notes |
+|---|---:|---:|---|
+| gpt-5.2 | 1.75 | 14.00 | Flagship GPT-5 family |
+| gpt-5.1 | 1.25 | 10.00 | Slightly cheaper GPT-5 variant |
+| gpt-5-mini | 0.25 | 2.00 | Best value in GPT-5 family |
+| gpt-4o | 2.50 | 10.00 | Strong all‑rounder |
+| gpt-4o-mini | 0.15 | 0.60 | Great for simple / high‑volume tasks |
+| gpt-4.1 | 2.00 | 8.00 | Newer general model line |
+| o1 | 15.00 | 60.00 | Reasoning model (higher cost) |
+| o4-mini | 1.10 | 4.40 | Lower‑cost reasoning |
+
+
+**Anthropic (Claude Developer Platform)**
+
+| Model | Input ($/1M) | Output ($/1M) | Notes |
+|---|---:|---:|---|
+| Claude Opus 4.5 | 5.00 | 25.00 | Top-end Claude |
+| Claude Sonnet 4.5 | 3.00 | 15.00 | Strong coding + agents |
+| Claude Haiku 4.5 | 1.00 | 5.00 | Fast + cost-efficient |
+
+
+**Google (Gemini API)**
+
+| Model | Input ($/1M) | Output ($/1M) | Notes |
+|---|---:|---:|---|
+| Gemini 3 Pro Preview | 1.00 / 2.00 | 6.00 / 9.00 | Tiered by prompt size: **<=200k / >200k** tokens |
+| Gemini 3 Flash Preview | 0.50 | 3.00 | Fast, strong grounding/search focus |
+| Gemini 2.5 Flash | 0.30 | 2.50 | General “flash” tier |
+| Gemini 2.5 Flash-Lite | 0.10 | 0.40 | Cheapest text tier |
+
+
+**Popular open(-weights) models on OpenRouter**
+
+> [!TIP]
+> OpenRouter prices can vary by route/provider; rows below reflect the model listing prices shown on OpenRouter.
+
+| Model (OpenRouter) | Input ($/1M) | Output ($/1M) | Why it’s popular |
+|---|---:|---:|---|
+| Meta: Llama 3.1 8B Instruct | 0.02 | 0.05 | Ultra-cheap + fast baseline |
+| Meta: Llama 3.3 70B Instruct | 0.10 | 0.32 | Big open model, strong chat quality |
+| Qwen: Qwen3 32B | 0.08 | 0.24 | Great price/perf mid-size model |
+| Qwen: Qwen2.5 72B Instruct | 0.12 | 0.39 | Strong general 70B-class model |
+| DeepSeek: V3.2 Exp | 0.25 | 0.38 | Popular for reasoning/coding per $ |
+| DeepSeek: R1 | 0.70 | 2.40 | “Open reasoning” flagship (higher cost) |
+| Mistral: Mixtral 8x7B Instruct | 0.54 | 0.54 | Classic MoE instruct model |
 
 Cost optimization:
 - Output tokens cost 2-5x more than input—keep responses concise
@@ -158,6 +328,9 @@ This is a genuine trade-off, not a clear winner.
 | 13B params | 16GB | Llama 2 13B |
 | 70B params | 48GB+ | Llama 3.1 70B |
 
+> [!NOTE]
+> **Quantization**: Compressing model weights from 32-bit or 16-bit floats to lower precision (8-bit, 4-bit). Trades some quality for dramatically reduced memory and faster inference.
+
 **Quantization** reduces memory requirements by using lower precision:
 - Q8 (8-bit): ~50% size reduction, minimal quality loss
 - Q4 (4-bit): ~75% size reduction, noticeable but usable quality loss
@@ -165,10 +338,6 @@ This is a genuine trade-off, not a clear winner.
 **Key tools:**
 
 [Ollama](https://ollama.ai/) — Easiest setup, good API, covers most use cases
-```bash
-# Install and run a model
-ollama run llama3.1:8b
-```
 
 [llama.cpp](https://github.com/ggerganov/llama.cpp) — Maximum control, best performance, steeper learning curve
 
@@ -198,6 +367,10 @@ For llama.cpp, look for **GGUF** format models. [TheBloke](https://huggingface.c
 
 ## Related
 
-- [Context Management](./context-management.md) — How to use your context window effectively
-- [Prompting](./prompting.md) — How to write prompts that work
+- [Day-to-Day Workflows](../03-ai-assisted-development/day-to-day-workflows.md) — Managing context in AI-assisted development
+- [RAG Systems](../04-shipping-ai-features/rag-systems.md) — Context window management strategies for production
 - [Model Routing](../04-shipping-ai-features/model-routing.md) — Choosing models dynamically in production
+
+## Next:
+
+- [Prompting and Interaction Patterns](./prompting.md)

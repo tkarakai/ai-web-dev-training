@@ -1,6 +1,6 @@
 # Code Review and Governance Practices
 
-> Team standards for AI-assisted development—making quality repeatable, not heroic.
+Team standards for AI-assisted development—making quality repeatable, not heroic.
 
 ## TL;DR
 
@@ -396,6 +396,8 @@ const aiGovernance = {
 
 ## Related
 
-- [Operational Guardrails](../02-governance/operational-guardrails.md) — Data and policy constraints
-- [Testing and Quality](./testing-quality.md) — Verifying generated code
-- [Tooling Ecosystem](./tooling-ecosystem.md) — Tool configuration
+- [Operational Guardrails](../04-shipping-ai-features/guardrails.md) — Data and policy constraints
+
+## Previous
+
+- [AI-Assisted Technical Writing](./technical-writing.md)

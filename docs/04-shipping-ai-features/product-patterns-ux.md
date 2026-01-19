@@ -1,6 +1,6 @@
 # Product Patterns and UX for AI Features
 
-> Designing AI features that handle uncertainty, provide citations, and fail gracefully.
+Designing AI features that handle uncertainty, provide citations, and fail gracefully.
 
 ## TL;DR
 
@@ -371,6 +371,9 @@ interface BargeInConfig {
 
 ## Related
 
-- [Message Design and State](./message-design-state.md) — Managing conversation state
 - [Output Control](./output-control.md) — Structured responses
 - [Voice Interfaces](./voice-interfaces.md) — Deep dive on voice
+
+## Next
+
+- [Message Design and Application State](./message-design-state.md)

@@ -1,6 +1,6 @@
 # Testing and Quality with AI
 
-> Using AI to generate tests, strengthen coverage, and catch edge cases—without false confidence.
+Using AI to generate tests, strengthen coverage, and catch edge cases—without false confidence.
 
 ## TL;DR
 
@@ -334,6 +334,13 @@ Use our test database and mock payment provider.
 
 ## Related
 
-- [Day-to-Day Workflows](./day-to-day-workflows.md) — Integrating tests into workflow
-- [Evals Basics](../02-governance/evals-basics.md) — Testing AI behavior itself
+- [Evals Basics](../04-shipping-ai-features/evals-basics.md) — Testing AI behavior itself
 - [Evals and CI/CD](../04-shipping-ai-features/evals-cicd.md) — Automated testing pipelines
+
+## Previous
+
+- [Day-to-Day Workflows](./day-to-day-workflows.md)
+
+## Next
+
+- [AI-Assisted Technical Writing](./technical-writing.md)
