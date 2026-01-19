@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 /**
  * PII Detection & Guardrails Demo
@@ -54,7 +54,7 @@ export default function PIIGuardrailsPage() {
   }, [text, preset]);
 
   // Auto-scan on text change
-  useMemo(() => {
+  useEffect(() => {
     if (text) {
       runScan();
     }

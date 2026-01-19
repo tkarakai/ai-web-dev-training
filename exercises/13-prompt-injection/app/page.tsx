@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 /**
  * Prompt Injection Defense Demo
@@ -57,7 +57,7 @@ export default function InjectionDefensePage() {
   }, [input, systemPrompt, threshold]);
 
   // Auto-analyze on input change
-  useMemo(() => {
+  useEffect(() => {
     if (input) {
       analyze();
     }
