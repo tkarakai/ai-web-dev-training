@@ -47,3 +47,6 @@ Thumbs.db
 # Cache
 .cache/
 *.cache
+
+# Auto Claude data directory
+.auto-claude/
